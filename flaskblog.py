@@ -1,25 +1,39 @@
+from datetime import datetime
 from flask import Flask, render_template, url_for, flash, redirect
+from flask_sqlalchemy import SQLAlchemy
 from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = '0ab581061e7206cf1055587676133539' #make it an env variable later on
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 
-posts = [
-    {
-        'author': 'Julian Hysi',
-        'title': 'First blog post',
-        'content': 'First blog post contents',
-        'date_posted': 'August 2019, 15 (?)'
-    },
-    {
-        'author': 'Albor Hysi',
-        'title': 'Second blog post',
-        'content': 'Second blog post contents',
-        'date_posted': 'August 2019, 15 (defo)'
-    }
+db = SQLAlchemy(app)
 
-]
+#ignore errors on db object..it's an internal VS Code/pylint issue
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    profile_pic = db.Column(db.String(20), nullable=False, default='default.jpeg')
+    password = db.Column(db.String(60), nullable=False)
+    posts = db.relationship('Post', backref='author', lazy=True) #'Post' in uppercase because it references the class name
+
+    def __repr__(self):
+        return f"User: {self.username}, \nEmail: {self.email}\n"
+
+
+#ignore errors on db object..it's an internal VS Code/pylint issue
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(120), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) #'user' in lowercase because it references the table name
+
+    def __repr__(self):
+        return f"Blog post: {self.title}, \nPosted on: {self.date_posted}\n"   
+
 
 @app.route("/")
 @app.route("/home")
