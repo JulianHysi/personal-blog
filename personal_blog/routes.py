@@ -1,7 +1,7 @@
 from flask import render_template, url_for, flash, redirect, request
 from personal_blog import app, db, bcrypt
 from personal_blog.models import User, Post #import statement moved down here, to avoid circular importing issue
-from personal_blog.forms import RegistrationForm, LoginForm
+from personal_blog.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flask_login import login_user, logout_user, current_user, login_required
 
 posts = [
@@ -65,7 +65,18 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route("/account")
+@app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
-    return render_template('account.html', title='Profile')
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Profile has been updated', 'success')
+        return redirect(url_for('account'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email   
+    profile_pic = url_for('static', filename='profile_pics/' + current_user.profile_pic)
+    return render_template('account.html', title='Profile', profile_pic=profile_pic, form=form)
