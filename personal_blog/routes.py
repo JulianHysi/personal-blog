@@ -1,3 +1,6 @@
+import os
+import secrets
+from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from personal_blog import app, db, bcrypt
 from personal_blog.models import User, Post #import statement moved down here, to avoid circular importing issue
@@ -65,11 +68,27 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+def save_profile_picture(profile_pic):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(profile_pic.filename)
+    filename = random_hex + f_ext #the name with which the file picture will be saved
+    filepath = os.path.join(app.root_path, 'static/profile_pics', filename)
+
+    file_dimensions = (125, 125) #force these dimensions into the save filed
+    image = Image.open(profile_pic)
+    image.thumbnail(file_dimensions)
+
+    image.save(filepath)
+    return filename
+
 @app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
+        if form.profile_pic.data:
+            profile_pic_file = save_profile_picture(form.profile_pic.data)
+            current_user.profile_pic = profile_pic_file
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
