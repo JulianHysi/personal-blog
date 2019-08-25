@@ -122,3 +122,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ignore the changes to folder that cointains the profile pics for users
+personal_blog/static/profile_pics/

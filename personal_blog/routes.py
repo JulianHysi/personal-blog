@@ -81,12 +81,21 @@ def save_profile_picture(profile_pic):
     image.save(filepath)
     return filename
 
+def delete_old_profile_picture():
+    filename = current_user.profile_pic
+    filepath = os.path.join(app.root_path, 'static/profile_pics', filename)
+    try:
+        os.remove(filepath)
+    except:
+        pass
+
 @app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.profile_pic.data:
+            delete_old_profile_picture() # deletes the old profile picture file from the filesystem
             profile_pic_file = save_profile_picture(form.profile_pic.data)
             current_user.profile_pic = profile_pic_file
         current_user.username = form.username.data
