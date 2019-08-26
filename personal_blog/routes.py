@@ -3,7 +3,7 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from personal_blog import app, db, bcrypt
-from personal_blog.models import User, Post #import statement moved down here, to avoid circular importing issue
+from personal_blog.models import User, Post
 from personal_blog.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flask_login import login_user, logout_user, current_user, login_required
 

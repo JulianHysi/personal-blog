@@ -125,3 +125,6 @@ dmypy.json
 
 # Ignore the changes to folder that cointains the profile pics for users
 personal_blog/static/profile_pics/
+
+#Ignore changes to the db
+blog.db
