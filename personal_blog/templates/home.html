@@ -8,8 +8,7 @@
                 <a class="mr-2" href="#">{{ post.author.username }}</a>
                 <small class="text-muted" id="date_posted"> {{ post.date_posted.strftime('%d-%m-%Y') }} </small>
             </div> <br>
-            <h2><a class="article-title" href="#">{{ post.title }}</a></h2> <br>
-            <p class="article-content">{{ post.content }}</p>
+            <h2><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h2>
         </div>
     </article>
     {% endfor %}
