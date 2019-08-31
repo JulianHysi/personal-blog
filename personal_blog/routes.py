@@ -121,6 +121,7 @@ def update_post(post_id):
     if post.author != current_user:
         abort(403) #forbidden route
     form = PostForm()
+    form.submit.label.text = 'Update' # submit button has a label of 'Update' in this case
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data

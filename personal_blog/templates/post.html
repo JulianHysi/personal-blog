@@ -5,12 +5,14 @@
     <div class="media-body">
         <div class="article-metadata">
             <a class="mr-2" href="#">{{ post.author.username }}</a>
-            <small class="text-muted" id="date_posted"> {{ post.date_posted.strftime('%d-%m-%Y') }} </small>
+            <small class="text-muted right"> {{ post.date_posted.strftime('%d-%m-%Y') }} </small>
             {% if post.author == current_user %}
-            <div>
+            <br>
+            <div class="right"> 
                 <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_post', post_id=post.id) }}">Update</a>
                 <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
             </div>
+            <br><br>
             {% endif %}
         </div> <br>
         <h2 class="article-title">{{ post.title }}</h2> <br>
