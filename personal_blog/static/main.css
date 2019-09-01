@@ -82,3 +82,7 @@ body {
   .right {
     float: right;
 }
+
+form textarea#content {
+  height: 500px;
+}
