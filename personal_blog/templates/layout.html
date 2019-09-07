@@ -64,9 +64,24 @@
 
                   <div class="col-md-4">
                     <div class="content-section">
+
                         <ul class="list-group">
+
+                          {% if sidebar_posts: %}
                           <li class="list-group-item list-group-item-light">Latest Posts</li>
-                          &emsp; To be filled with latest posts <br>
+                            <div style="border: 1px solid #dddddd; word-wrap: break-word">
+                                <ul>
+                                    <br>
+                                    {% for post in sidebar_posts %}
+                                        <li><p><a href="{{ url_for('post', post_id=post.id)}}">{{post.title}}</a></p></li>
+                                    {%endfor%}
+                                    <br>
+                                </ul>
+                            </div>
+                          {% endif %}
+                          
+                          &emsp;
+
                           <li class="list-group-item list-group-item-light">Contact</li>
                           <div style="border: 1px solid #dddddd; word-wrap: break-word">
                             <ul>
@@ -77,9 +92,9 @@
                                 <li>Email:    &emsp; julian_hysi@live.com</li>
                                 <br>
                             </ul>
-                        </div>
+                          </div>
+
                         </ul>
-                      </p>
                     </div>
                 </div>
             </div>
