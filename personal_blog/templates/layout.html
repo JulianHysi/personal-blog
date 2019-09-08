@@ -33,7 +33,9 @@
                         <!-- Navbar Right Side -->
                         <div class="navbar-nav">
                         {% if current_user.is_authenticated %}
-                            <a class="nav-item nav-link" href="{{ url_for('new_post') }}">New post</a>
+                            {% if current_user.username == 'julian97' %} <!-- show the New Post option only when it's me who is logged in -->
+                                <a class="nav-item nav-link" href="{{ url_for('new_post') }}">New post</a>
+                            {% endif %}
                             <a class="nav-item nav-link" href="{{ url_for('account') }}">Profile</a>
                             <a class="nav-item nav-link" href="{{ url_for('logout') }}">Log Out</a>
                         {% else %}
