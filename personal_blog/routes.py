@@ -8,17 +8,18 @@ from personal_blog.forms import RegistrationForm, LoginForm, UpdateAccountForm, 
 from flask_login import login_user, logout_user, current_user, login_required
 
 
+sidebar_posts = Post.query.order_by(Post.date_posted.desc()).limit(5).all()
+
 @app.route("/")
 @app.route("/home")
 def home():
     page = request.args.get('page', 1, type=int) #url query parameter
-    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=4)
-    sidebar_posts = Post.query.order_by(Post.date_posted.desc()).limit(5).all()
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=6)
     return render_template('home.html', posts=posts, sidebar_posts=sidebar_posts)
 
 @app.route("/about")
 def about():
-    return render_template('about.html', title='About')
+    return render_template('about.html', title='About', sidebar_posts=sidebar_posts)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -96,7 +97,7 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email   
     profile_pic = url_for('static', filename='profile_pics/' + current_user.profile_pic)
-    return render_template('account.html', title='Profile', profile_pic=profile_pic, form=form)
+    return render_template('account.html', title='Profile', profile_pic=profile_pic, form=form, sidebar_posts=sidebar_posts)
 
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
@@ -116,7 +117,7 @@ def new_post():
 @app.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post)
+    return render_template('post.html', title=post.title, post=post, sidebar_posts=sidebar_posts)
 
 @app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
@@ -150,11 +151,7 @@ def delete_post(post_id):
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
 
-@app.route("/user/<string:username>")
-def user_posts(username):
-    page = request.args.get('page', 1, type=int) #url query parameter
-    user = User.query.filter_by(username=username).first_or_404()
-    posts = Post.query.filter_by(author=user)\
-        .order_by(Post.date_posted.desc())\
-        .paginate(page=page, per_page=4)
-    return render_template('user_posts.html', posts=posts, user=user)
+@app.route("/all_posts")
+def all_posts():
+    posts = Post.query.order_by(Post.date_posted.desc())
+    return render_template('all_posts.html', posts=posts, sidebar_posts=sidebar_posts)
