@@ -64,6 +64,7 @@
                     {% block content %}{% endblock %}
                   </div>
 
+                  {% if hide_sidebar != True %}
                   <div class="col-md-4">
                     <div class="content-section">
 
@@ -99,6 +100,8 @@
                         </ul>
                     </div>
                 </div>
+                {% endif %}
+                
             </div>
         </main>
 

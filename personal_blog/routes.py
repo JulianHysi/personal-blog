@@ -33,7 +33,7 @@ def register():
         db.session.commit()
         flash(f'Account {form.username.data} has been registered. You can proceed with the login.', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('register.html', title='Register', form=form, hide_sidebar=True)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -51,7 +51,7 @@ def login():
                 return redirect(url_for('home'))
         else:
             flash('Please enter the right credentials..', 'danger')    
-    return render_template('login.html', title='Log In', form=form)
+    return render_template('login.html', title='Log In', form=form, hide_sidebar=True)
 
 @app.route("/logout")
 def logout():
@@ -112,7 +112,7 @@ def new_post():
         flash('Post has been created!', 'success')
         return redirect(url_for('home'))
     return render_template('create_post.html', title='New Post', 
-                            form=form, legend='Create Post')
+                            form=form, legend='Create Post', hide_sidebar=True)
 
 @app.route("/post/<int:post_id>")
 def post(post_id):
@@ -137,7 +137,7 @@ def update_post(post_id):
         form.title.data = post.title
         form.content.data = post.content
     return render_template('create_post.html', title='Update Post',
-                            form=form, legend='Update Post')
+                            form=form, legend='Update Post', hide_sidebar=True)
 
 
 @app.route("/post/<int:post_id>/delete", methods=['POST'])
