@@ -9,7 +9,7 @@ body {
   }
   
   .bg-steel {
-    background-color: #5464fc;
+    background-color: #3b5998;
   }
   
   .site-header .navbar-nav .nav-link {
@@ -85,4 +85,8 @@ body {
 
 form textarea#content {
   height: 500px;
+}
+
+.sidebar-paragraph{
+  margin-left: 10px;
 }

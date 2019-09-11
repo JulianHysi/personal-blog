@@ -21,7 +21,7 @@
         <header class="site-header">
             <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
                 <div class="container">
-                    <a class="navbar-brand mr-4" href="/">Julian's Blog</a>
+                    <a class="navbar-brand mr-4" href="{{ url_for('home') }}">Julian's Blog</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -70,37 +70,48 @@
 
                         <ul class="list-group">
 
-                          {% if sidebar_posts: %}
-                          <li class="list-group-item list-group-item-light">Latest Posts</li>
+                            <li class="list-group-item list-group-item-light">Welcome !</li>
+                            <div style="border: 1px solid #dddddd; word-wrap: break-word">
+                                <br>
+                                <p class="sidebar-paragraph">Hi, my name is Julian Hysi and I'm a Software Engineer.</p>
+                                <p class="sidebar-paragraph">I've built this blog to share my thoughts.</p>
+                                <p class="sidebar-paragraph">Hope you have a nice stay! </p>
+                                <br>
+                            </div>
+
+                            &emsp;
+
+                            {% if sidebar_posts: %}
+                            <li class="list-group-item list-group-item-light">Latest Posts</li>
+                                <div style="border: 1px solid #dddddd; word-wrap: break-word">
+                                    <ul>
+                                        <br>
+                                        {% for post in sidebar_posts %}
+                                            <li><p><a href="{{ url_for('post', post_id=post.id)}}">{{post.title}}</a></p></li>
+                                        {%endfor%}
+                                        <br>
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            
+                            &emsp;
+
+                            <li class="list-group-item list-group-item-light">Contact</li>
                             <div style="border: 1px solid #dddddd; word-wrap: break-word">
                                 <ul>
                                     <br>
-                                    {% for post in sidebar_posts %}
-                                        <li><p><a href="{{ url_for('post', post_id=post.id)}}">{{post.title}}</a></p></li>
-                                    {%endfor%}
+                                    <li><p>Twitter:  &emsp; <a href="https://twitter.com/JulianHysi">@JulianHysi</a></p></li>
+                                    <li><p>GitHub:  &emsp; <a href="https://github.com/JulianHysi">@JulianHysi</a></p></li>
+                                    <li><p>Email:    &emsp; julian_hysi@yahoo.com</p></li>
+                                    <li>Email:    &emsp; julian_hysi@live.com</li>
                                     <br>
                                 </ul>
                             </div>
-                          {% endif %}
-                          
-                          &emsp;
-
-                          <li class="list-group-item list-group-item-light">Contact</li>
-                          <div style="border: 1px solid #dddddd; word-wrap: break-word">
-                            <ul>
-                                <br>
-                                <li><p>Twitter:  &emsp; <a href="https://twitter.com/JulianHysi">@JulianHysi</a></p></li>
-                                <li><p>GitHub:  &emsp; <a href="https://github.com/JulianHysi">@JulianHysi</a></p></li>
-                                <li><p>Email:    &emsp; julian_hysi@yahoo.com</p></li>
-                                <li>Email:    &emsp; julian_hysi@live.com</li>
-                                <br>
-                            </ul>
-                          </div>
 
                         </ul>
                     </div>
-                </div>
-                {% endif %}
+                  </div>
+                  {% endif %}
                 
             </div>
         </main>
