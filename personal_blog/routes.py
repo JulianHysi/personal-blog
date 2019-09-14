@@ -102,7 +102,7 @@ def account():
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
-    if current_user.username != 'julian97': #only one user will be allowed to create posts
+    if current_user.is_admin != True:   #only the admin should create posts
         abort(403)
     form = PostForm()
     if form.validate_on_submit():
