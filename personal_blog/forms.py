@@ -46,7 +46,12 @@ class UpdateAccountForm(FlaskForm):
         if user and user.email != current_user.email:
             raise ValidationError('Email is already taken!')
 
+
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')     
+    submit = SubmitField('Post')
+
+class CommentForm(FlaskForm):
+    content = TextAreaField('Comment', validators=[DataRequired()])
+    submit = SubmitField('Post')

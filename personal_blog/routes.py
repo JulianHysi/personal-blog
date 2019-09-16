@@ -3,8 +3,8 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from personal_blog import app, db, bcrypt
-from personal_blog.models import User, Post
-from personal_blog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
+from personal_blog.models import User, Post, Comment
+from personal_blog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, CommentForm
 from flask_login import login_user, logout_user, current_user, login_required
 
 
@@ -155,3 +155,16 @@ def delete_post(post_id):
 def all_posts():
     posts = Post.query.order_by(Post.date_posted.desc())
     return render_template('all_posts.html', posts=posts, sidebar_posts=sidebar_posts)
+
+@app.route("/post/<int:post_id>/comment", methods=['GET', 'POST'])
+@login_required
+def comment(post_id):
+    post = Post.query.get_or_404(post_id)
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(content=form.content.data, user_id=current_user.id, post_id=post.id)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Comment has been posted!', 'success')
+        return redirect(url_for('post', post_id=post.id))
+    return render_template('comment.html', title='Comment', form=form, hide_sidebar=True)
