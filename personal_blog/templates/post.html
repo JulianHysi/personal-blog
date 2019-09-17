@@ -24,6 +24,18 @@
         <a style="float: right;" href="https://twitter.com/share?url=#">Share on Twitter</a>
     </div>
 </article>
+{% if has_comments %}
+  <div class="media content-section">
+    <h3>Comments: </h3>
+  </div>
+  <div>
+    {% for comment in comments %}
+      <div style="margin-left: 60px">{{ comment.content }}</div>
+      <br>
+    {% endfor %}
+  </div>
+  <br>
+{% endif %}
 
 <!-- Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">

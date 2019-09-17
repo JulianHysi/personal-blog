@@ -117,7 +117,10 @@ def new_post():
 @app.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post, sidebar_posts=sidebar_posts)
+    comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.date_posted.desc())
+    has_comments = len(list(comments)) > 0
+    return render_template('post.html', title=post.title, post=post, comments=comments, 
+                           sidebar_posts=sidebar_posts, has_comments=has_comments)
 
 @app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
