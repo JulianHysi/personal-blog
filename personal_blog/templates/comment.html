@@ -4,8 +4,11 @@
     <form method="POST" action="">
         {{ form.hidden_tag() }} <!-- CSRF token-->
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Comment on post</legend>
+            <legend class="border-bottom mb-4">Comment on post :</legend>
             
+            <h2 class="article-title">{{ post.title }}</h2> <br>
+            <p class="article-content">{{ post.content }}</p> <br>
+
             <div class="form-group">
                 {{ form.content.label(class="form-control-label") }}
 

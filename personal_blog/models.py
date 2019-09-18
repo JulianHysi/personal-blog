@@ -28,8 +28,8 @@ class Post(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) #'user' in lowercase because it references the table name
-    comments = db.relationship('Comment', backref='parent_post', lazy=True)
-
+    comments = db.relationship('Comment', cascade='all,delete', backref='parent_post', lazy=True)
+    
     def __repr__(self):
         return f"Blog post: {self.title}, \nPosted on: {self.date_posted}\n"
 

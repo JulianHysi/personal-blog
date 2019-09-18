@@ -22,6 +22,7 @@
         <br>
         <a style="float: right; padding-left: 10px" href="https://www.facebook.com/sharer/sharer.php?u=example.org" target="_blank"> Share on Facebook</a>
         <a style="float: right;" href="https://twitter.com/share?url=#">Share on Twitter</a>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('comment', post_id=post.id) }}">Comment</a>
     </div>
 </article>
 {% if has_comments %}

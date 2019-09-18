@@ -170,4 +170,4 @@ def comment(post_id):
         db.session.commit()
         flash('Comment has been posted!', 'success')
         return redirect(url_for('post', post_id=post.id))
-    return render_template('comment.html', title='Comment', form=form, hide_sidebar=True)
+    return render_template('comment.html', title='Comment', form=form, post=post, hide_sidebar=True)
