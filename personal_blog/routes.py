@@ -3,7 +3,7 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from personal_blog import app, db, bcrypt
-from personal_blog.models import User, Post, Comment
+from personal_blog.models import User, Post, Comment, Tag
 from personal_blog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, CommentForm
 from flask_login import login_user, logout_user, current_user, login_required
 
@@ -109,6 +109,13 @@ def new_post():
         post = Post(title=form.title.data, content=form.content.data, author=current_user)
         db.session.add(post)
         db.session.commit()
+        tags = form.tags.data
+        tags = tags.split(' ')
+        parent_post = Post.query.order_by(Post.date_posted.desc()).first()
+        for i in tags:
+            tag = Tag(content=i, parent_post=parent_post)
+            db.session.add(tag)
+            db.session.commit()
         flash('Post has been created!', 'success')
         return redirect(url_for('home'))
     return render_template('create_post.html', title='New Post', 
@@ -118,9 +125,10 @@ def new_post():
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.date_posted.desc())
+    tags = Tag.query.filter_by(post_id=post_id)
     has_comments = len(list(comments)) > 0
     return render_template('post.html', title=post.title, post=post, comments=comments, 
-                           sidebar_posts=sidebar_posts, has_comments=has_comments)
+                           sidebar_posts=sidebar_posts, has_comments=has_comments, tags=tags)
 
 @app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required

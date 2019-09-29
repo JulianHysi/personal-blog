@@ -29,6 +29,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) #'user' in lowercase because it references the table name
     comments = db.relationship('Comment', cascade='all,delete', backref='parent_post', lazy=True)
+    tags = db.relationship('Tag', cascade='all,delete', backref='parent_post', lazy=True)
     
     def __repr__(self):
         return f"Blog post: {self.title}, \nPosted on: {self.date_posted}\n"
@@ -40,3 +41,10 @@ class Comment(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+
+
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(20), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+

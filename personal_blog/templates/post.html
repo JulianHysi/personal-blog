@@ -17,6 +17,11 @@
             <br><br>
             {% endif %}
         </div> <br>
+        <p class="right">
+            {% for tag in tags %}
+            <a href="#">{{ tag.content }}</a>
+            {% endfor %}
+          </p>
         <h2 class="article-title">{{ post.title }}</h2> <br>
         <p class="article-content">{{ post.content }}</p>
         <br>
@@ -32,7 +37,7 @@
   </div>
   <div>
     {% for comment in comments %}
-      <article style="margin-left: 50px" class="media content-section">
+      <article style="margin-left: 50px; background-color: #e1ecf7;" class="media content-section">
         <a>
           <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.profile_pic) }}">
         </a>
