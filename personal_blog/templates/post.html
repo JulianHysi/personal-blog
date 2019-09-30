@@ -19,7 +19,7 @@
         </div> <br>
         <p class="right">
             {% for tag in tags %}
-            <a href="#">{{ tag.content }}</a>
+            <a href="{{ url_for('posts_by_tag', tag_content=tag.content) }}">#{{ tag.content }}</a>
             {% endfor %}
           </p>
         <h2 class="article-title">{{ post.title }}</h2> <br>

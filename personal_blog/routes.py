@@ -108,14 +108,13 @@ def new_post():
     if form.validate_on_submit():
         post = Post(title=form.title.data, content=form.content.data, author=current_user)
         db.session.add(post)
-        db.session.commit()
         tags = form.tags.data
         tags = tags.split(' ')
         parent_post = Post.query.order_by(Post.date_posted.desc()).first()
         for i in tags:
             tag = Tag(content=i, parent_post=parent_post)
             db.session.add(tag)
-            db.session.commit()
+        db.session.commit()
         flash('Post has been created!', 'success')
         return redirect(url_for('home'))
     return render_template('create_post.html', title='New Post', 
@@ -179,3 +178,12 @@ def comment(post_id):
         flash('Comment has been posted!', 'success')
         return redirect(url_for('post', post_id=post.id))
     return render_template('comment.html', title='Comment', form=form, post=post, hide_sidebar=True)
+
+@app.route("/all_posts/<string:tag_content>")
+def posts_by_tag(tag_content):
+    tags = Tag.query.filter_by(content=tag_content).all()
+    post_id_set = set()
+    for tag in tags:
+        post_id_set.add(tag.post_id)
+    posts = db.session.query(Post).filter(Post.id.in_(post_id_set)).all()
+    return render_template('all_posts.html', posts=posts, sidebar_posts=sidebar_posts, tag=tag_content)

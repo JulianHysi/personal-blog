@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h3 class="mb-3">All posts, in chronological order :</h3>
+    {% if not tag %}
+        <h3 class="mb-3">All posts, in chronological order :</h3>
+    {% else %}
+        <h3 class="mb-3">All #{{tag}} posts, in chronological order :</h3>
+    {% endif %}
+
     {% for post in posts %}
     <article class="media content-section">
         <a href="{{ url_for('all_posts') }}">
