@@ -53,6 +53,9 @@
         </fieldset>
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
+            <button class="btn btn-warning">
+                <a href="{{ url_for('home') }}">Cancel</a>
+            </button>
         </div>
     </form>
 </div>
