@@ -192,6 +192,7 @@ def comment(post_id):
         return redirect(url_for('post', post_id=post.id))
     return render_template('comment.html', title='Comment', form=form, post=post, hide_sidebar=True)
 
+#returns all posts for a certain tag
 @app.route("/all_posts/<string:tag_content>")
 def posts_by_tag(tag_content):
     tags = Tag.query.filter_by(content=tag_content).all()
@@ -200,3 +201,9 @@ def posts_by_tag(tag_content):
         post_id_set.add(tag.post_id)
     posts = db.session.query(Post).filter(Post.id.in_(post_id_set)).all()
     return render_template('all_posts.html', posts=posts, sidebar_posts=sidebar_posts, tag=tag_content)
+
+#returns all tags, and the number of posts they have
+@app.route("/tags")
+def tags():
+    tags = db.session.query(Tag.content.distinct().label("content")).all()
+    return render_template('tags.html', Tag=Tag, tags=tags)

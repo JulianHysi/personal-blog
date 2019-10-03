@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h3 class="mb-3">All posts groupped by tags :</h3>
+
+    {% for tag in tags %}
+    <article class="media content-section">
+        <div class="media-body">
+            <h2>
+                <a class="article-title" href="{{ url_for('posts_by_tag', tag_content=tag.content) }}">#{{ tag.content }}
+                ({{ Tag.query.filter_by(content=tag.content).count() }})
+                </a>
+            </h2>
+        </div>
+    </article>
+    {% endfor %}
+{% endblock content %}
