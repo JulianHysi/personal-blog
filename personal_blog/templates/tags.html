@@ -5,11 +5,19 @@
     {% for tag in tags %}
     <article class="media content-section">
         <div class="media-body">
-            <h2>
+            <h3>
                 <a class="article-title" href="{{ url_for('posts_by_tag', tag_content=tag.content) }}">#{{ tag.content }}
-                ({{ Tag.query.filter_by(content=tag.content).count() }})
+                <small style="padding-left: 20px">({{ Tag.query.filter_by(content=tag.content).count() }} posts)</small>
                 </a>
-            </h2>
+            </h3>
+            <br>
+            <div>
+                <ul>
+                    {% for post in db.session.query(Post).join(Tag).filter_by(content=tag.content).order_by(Post.date_posted.desc()).all() %}
+                        <li><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></li><br>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </article>
     {% endfor %}

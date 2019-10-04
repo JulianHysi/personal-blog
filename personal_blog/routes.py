@@ -199,11 +199,11 @@ def posts_by_tag(tag_content):
     post_id_set = set()
     for tag in tags:
         post_id_set.add(tag.post_id)
-    posts = db.session.query(Post).filter(Post.id.in_(post_id_set)).all()
+    posts = db.session.query(Post).filter(Post.id.in_(post_id_set)).order_by(Post.date_posted.desc()).all()
     return render_template('all_posts.html', posts=posts, sidebar_posts=sidebar_posts, tag=tag_content)
 
 #returns all tags, and the number of posts they have
 @app.route("/tags")
 def tags():
     tags = db.session.query(Tag.content.distinct().label("content")).all()
-    return render_template('tags.html', Tag=Tag, tags=tags)
+    return render_template('tags.html', Tag=Tag, Post=Post, db=db, tags=tags)
