@@ -90,3 +90,21 @@ form textarea#content {
 .sidebar-paragraph{
   margin-left: 10px;
 }
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-child {
+  display: none;
+  min-width: 20px;
+}
+.dropdown-child a {
+  color: white;
+  padding-top: 10px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown:hover .dropdown-child {
+  display: block;
+}
