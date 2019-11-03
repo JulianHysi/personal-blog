@@ -91,20 +91,32 @@ form textarea#content {
   margin-left: 10px;
 }
 
-.dropdown {
-  position: relative;
+.dropdown > a, .dropbtn 
+{
   display: inline-block;
-}
-.dropdown-child {
-  display: none;
-  min-width: 20px;
-}
-.dropdown-child a {
-  color: white;
-  padding-top: 10px;
+  color: #cbd5db;
+  padding: 8px 25px;
   text-decoration: none;
-  display: block;
 }
-.dropdown:hover .dropdown-child {
-  display: block;
+
+.dropdown > a:hover, .dropdown:hover .dropbtn 
+{
+  color: #ffffff;
 }
+
+.dropdown-content 
+{
+  display: none;
+  position: absolute;
+  background-color: #3b5998;
+  min-width: 120px;
+}
+
+.dropdown-content a 
+{
+  padding: 12px;
+}
+
+.dropdown-content a:hover {background-color: rgb(255, 75, 75);}
+
+.dropdown:hover .dropdown-content {display: block;}

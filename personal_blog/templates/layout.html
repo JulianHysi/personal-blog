@@ -29,8 +29,8 @@
                         <div class="navbar-nav mr-auto">
                         <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
                         <div class="dropdown">
-                            <a class="nav-item nav-link">Posts</a>
-                            <div class="dropdown-child">
+                            <a href="javascript:void(0)" class="dropbtn">Posts</a>
+                            <div class="dropdown-content">
                                 <a class="nav-item nav-link" href="{{ url_for('all_posts') }}">All Posts</a>
                                 <a class="nav-item nav-link" href="{{ url_for('tags') }}">Posts by Tag</a>
                             </div>
