@@ -25,25 +25,25 @@
         <h2 class="article-title">{{ post.title }}</h2> <br>
         <p class="article-content">{{ post.content }}</p>
         <br>
-        <a style="float: right; margin-left: 5px" class="btn btn-warning" href="https://www.facebook.com/sharer/sharer.php?u=example.org" target="_blank"> Share on Facebook</a>
-        <a style="float: right;" class="btn btn-warning" href="https://twitter.com/share?url=#">Share on Twitter</a>
-        <a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('comment', post_id=post.id) }}">Comment</a>
+        <a class="btn btn-warning ml-2 right" href="https://www.facebook.com/sharer/sharer.php?u=example.org" target="_blank">Share on Facebook</a>
+        <a class="btn btn-warning right" href="https://twitter.com/share?url=#">Share on Twitter</a>
+        <a class="btn btn-info" href="{{ url_for('comment', post_id=post.id) }}">Comment</a>
     </div>
 </article>
 
 {% if has_comments %}
-  <div style="border-bottom-style: solid; border-width: 2px; border-color: #C0C0C0; margin-bottom: 30px; margin-top: 30px">
-    <h3>Comments :</h3>
+  <div id="comment-section">
+    <h4>Comments :</h4>
   </div>
   <div>
     {% for comment in comments %}
-      <article style="margin-left: 50px; background-color: #e1ecf7;" class="media content-section">
+      <article id="comment" class="media content-section">
         <a>
           <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.profile_pic) }}">
         </a>
         <div class="media-body">
           <div class="article-metadata">
-              <a style="color: #3e7cf0" class="mr-2">{{ comment.author.username }}</a>
+              <a id="comment-author">{{ comment.author.username }}</a>
               <small class="text-muted right"> {{ comment.date_posted.strftime('%d-%m-%Y') }} </small>
           </div> <br>
           <p class="article-content">{{ comment.content }}</p>

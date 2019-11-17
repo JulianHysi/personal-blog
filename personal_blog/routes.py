@@ -123,7 +123,7 @@ def new_post():
 @app.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.date_posted.desc())
+    comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.date_posted.asc())
     tags = Tag.query.filter_by(post_id=post_id)
     has_comments = len(list(comments)) > 0
     return render_template('post.html', title=post.title, post=post, comments=comments, 

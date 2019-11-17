@@ -9,6 +9,8 @@ h1, h2, h3, h4, h5, h6 {color: #444444;}
 
 a:hover {text-decoration: none;}
 
+ul {list-style-type: none;}
+
 .bg-fblue {background-color: #3b5998;}
 
 .site-header .navbar-nav .nav-link {color: #cbd5db;}
@@ -84,6 +86,37 @@ form textarea#content {height: 500px;}
 
 .dropdown-content a {padding: 12px;}
 
-.dropdown-content a:hover {background-color: rgb(255, 75, 75);}
+.dropdown-content a:hover {color: #ffffff;}
 
 .dropdown:hover .dropdown-content {display: block;}
+
+#tag-count 
+{
+  padding-left: 30px;
+  font-size: 70%;
+}
+
+#comment-section
+{
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: rgb(167, 186, 226);
+  margin-bottom: 40px;
+  margin-top: 50px
+}
+
+#comment
+{
+  margin-left: 50px; 
+  background-color: #e9f4fd;
+}
+
+#comment-author {color: #3e7cf0}
+
+.sidebar-section
+{
+  border-bottom: 2px solid #dddddd;
+  word-wrap: break-word;
+}
+
+.sidebar-section:last-child {border-bottom: none;}
