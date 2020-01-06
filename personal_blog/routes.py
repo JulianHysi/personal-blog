@@ -6,7 +6,7 @@ from personal_blog import app, db, bcrypt
 from personal_blog.models import User, Post, Comment, Tag
 from personal_blog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, CommentForm
 from flask_login import login_user, logout_user, current_user, login_required
-
+import re
 
 sidebar_posts = Post.query.order_by(Post.date_posted.desc()).limit(5).all()
 
@@ -99,6 +99,18 @@ def account():
     profile_pic = url_for('static', filename='profile_pics/' + current_user.profile_pic)
     return render_template('account.html', title='Profile', profile_pic=profile_pic, form=form, sidebar_posts=sidebar_posts)
 
+#receives the post as parameter, adds appropriate img tags if needed, and returns the new content
+def add_image_tags(content):
+    pattern = re.compile(r'pic\d+') #matches every occurence of 'pic' followed by one or more digits
+    matches = pattern.finditer(content)
+    match_count = 0
+    for match in matches:
+        match_count += 1
+        matched_phrase = match.group(0) #group(0) returns the entire match phrase
+        new_phrase = '<img src="smiley.gif" alt="image">' #to be completed
+        content= content.replace(matched_phrase, new_phrase, 1)
+    return content
+
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
@@ -106,7 +118,7 @@ def new_post():
         abort(403)
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        post = Post(title=form.title.data, content=add_image_tags(form.content.data), author=current_user)
         db.session.add(post)
         tags = form.tags.data
         tags = tags.split(' ')

@@ -23,7 +23,7 @@
             {% endfor %}
           </p>
         <h2 class="article-title">{{ post.title }}</h2> <br>
-        <p class="article-content">{{ post.content }}</p>
+        <p class="article-content">{{ post.content | safe }}</p> <!-- '| safe' marks the text as safe to render html tags -->
         <br>
         <a class="btn btn-warning ml-2 right" href="https://www.facebook.com/sharer/sharer.php?u=example.org" target="_blank">Share on Facebook</a>
         <a class="btn btn-warning right" href="https://twitter.com/share?url=#">Share on Twitter</a>
