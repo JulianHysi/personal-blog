@@ -6,7 +6,6 @@ from flask_login import UserMixin
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-#ignore errors on db object..it's an internal VS Code/pylint issue
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -21,7 +20,6 @@ class User(db.Model, UserMixin):
         return f"User: {self.username}, \nEmail: {self.email}\n"
 
 
-#ignore errors on db object..it's an internal VS Code/pylint issue
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
@@ -30,6 +28,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) #'user' in lowercase because it references the table name
     comments = db.relationship('Comment', cascade='all,delete', backref='parent_post', lazy=True)
     tags = db.relationship('Tag', cascade='all,delete', backref='parent_post', lazy=True)
+    pics = db.relationship('Picture', cascade='all,delete', backref='parent_post', lazy=True)
     
     def __repr__(self):
         return f"Blog post: {self.title}, \nPosted on: {self.date_posted}\n"
@@ -48,3 +47,7 @@ class Tag(db.Model):
     content = db.Column(db.String(20), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
 
+
+class Picture(db.Model):
+    pic = db.Column(db.String(20), primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
