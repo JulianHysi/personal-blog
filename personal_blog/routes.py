@@ -27,13 +27,20 @@ def register():
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+        passwd = form.password.data
+        hashed_passwd = bcrypt.generate_password_hash(passwd).decode('utf-8')
+        user = User()
+        user.username = form.username.data
+        user.email = form.email.data
+        user.password = hashed_passwd
+        user.is_admin = 0 if User.query.filter_by(is_admin=1).first() else 1
         db.session.add(user)
         db.session.commit()
-        flash(f'Account {form.username.data} has been registered. You can proceed with the login.', 'success')
+        flash(f'Account {form.username.data} has been registered. '
+                'You can proceed with the login.', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form, hide_sidebar=True)
+    return render_template('register.html', title='Register', form=form,
+            hide_sidebar=True)
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
