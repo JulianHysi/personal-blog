@@ -131,3 +131,6 @@ blog.db
 
 # Ignore temp db journal files
 *.db-journal
+
+# Ignore VS Code settings
+.vscode/
