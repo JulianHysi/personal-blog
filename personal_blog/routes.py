@@ -95,9 +95,14 @@ def account():
         return redirect(url_for('account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
-        form.email.data = current_user.email   
-    profile_pic = url_for('static', filename='profile_pics/' + current_user.profile_pic)
-    return render_template('account.html', title='Profile', profile_pic=profile_pic, form=form, sidebar_posts=sidebar_posts)
+        form.email.data = current_user.email
+
+    profile_pic_path = url_for('static',
+                filename='profile_pics/' + current_user.profile_pic)
+
+    return render_template('account.html', title='Profile',
+            profile_pic_path=profile_pic_path, form=form,
+            sidebar_posts=sidebar_posts)
 
 #receives the post as parameter, adds appropriate img tags if needed, and returns the new content
 def add_image_tags(content):
