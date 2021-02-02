@@ -1,12 +1,11 @@
-import os
-import secrets
-from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from personal_blog import app, db, bcrypt
 from personal_blog.models import User, Post, Comment, Tag
-from personal_blog.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, CommentForm
+from personal_blog.forms import RegistrationForm, LoginForm,\
+        UpdateAccountForm, PostForm, CommentForm
+from personal_blog.utilities import add_image_tags, delete_old_profile_picture
+from personal_blog.utilities import save_profile_picture, save_post_images
 from flask_login import login_user, logout_user, current_user, login_required
-import re
 
 sidebar_posts = Post.query.order_by(Post.date_posted.desc()).limit(5).all()
 
@@ -17,9 +16,11 @@ def home():
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=6)
     return render_template('home.html', posts=posts, sidebar_posts=sidebar_posts)
 
+
 @app.route("/about")
 def about():
     return render_template('about.html', title='About', sidebar_posts=sidebar_posts)
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -42,6 +43,7 @@ def register():
     return render_template('register.html', title='Register', form=form,
             hide_sidebar=True)
 
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -60,31 +62,12 @@ def login():
             flash('Please enter the right credentials..', 'danger')    
     return render_template('login.html', title='Log In', form=form, hide_sidebar=True)
 
+
 @app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
-def save_profile_picture(profile_pic):
-    random_hex = secrets.token_hex(8)
-    _, f_ext = os.path.splitext(profile_pic.filename)
-    filename = random_hex + f_ext #the name with which the file picture will be saved
-    filepath = os.path.join(app.root_path, 'static/profile_pics', filename)
-
-    file_dimensions = (125, 125) #force these dimensions into the save filed
-    image = Image.open(profile_pic)
-    image.thumbnail(file_dimensions)
-
-    image.save(filepath)
-    return filename
-
-def delete_old_profile_picture():
-    filename = current_user.profile_pic
-    filepath = os.path.join(app.root_path, 'static/profile_pics', filename)
-    try:
-        os.remove(filepath)
-    except:
-        pass
 
 @app.route("/account", methods=['GET', 'POST'])
 @login_required
@@ -92,8 +75,9 @@ def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.profile_pic.data:
-            delete_old_profile_picture() # deletes the old profile picture file from the filesystem
-            profile_pic_file = save_profile_picture(form.profile_pic.data)
+            delete_old_profile_picture(current_user, app)
+            # deletes the old profile picture file from the filesystem
+            profile_pic_file = save_profile_picture(form.profile_pic.data, app)
             current_user.profile_pic = profile_pic_file
         current_user.username = form.username.data
         current_user.email = form.email.data
@@ -111,37 +95,16 @@ def account():
             profile_pic_path=profile_pic_path, form=form,
             sidebar_posts=sidebar_posts)
 
-#receives the post as parameter, adds appropriate img tags if needed, and returns the new content
-def add_image_tags(content):
-    pattern = re.compile(r'pic\d+') #matches every occurence of 'pic' followed by one or more digits
-    matches = pattern.finditer(content)
-    match_count = 0
-    for match in matches:
-        match_count += 1
-        matched_phrase = match.group(0) #group(0) returns the entire match phrase
-        new_phrase = '<img src="smiley.gif" alt="image">' #to be completed
-        content = content.replace(matched_phrase, new_phrase, 1)
-    return content
-
-def save_post_images(images):
-    for image in images:
-        if image.filename:
-            random_hex = secrets.token_hex(8)
-            _, f_ext = os.path.splitext(image.filename)
-            filename = random_hex + f_ext #the name with which the file picture will be saved
-            filepath = os.path.join(app.root_path, 'static/post_images', filename)
-
-            image_obj = Image.open(image)
-            image_obj.save(filepath)
 
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
-    if current_user.is_admin != True:   #only the admin should create posts
+    if current_user.is_admin != True:  # only the admin creates posts
         abort(403)  
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=add_image_tags(form.content.data), author=current_user)
+        post = Post(title=form.title.data,
+                content=add_image_tags(form.content.data), author=current_user)
         db.session.add(post)
         # add tags
         tags = form.tags.data
@@ -152,7 +115,7 @@ def new_post():
             db.session.add(tag)
         # save images
         images = request.files.getlist('images')
-        save_post_images(images)
+        save_post_images(images, app)
         # commit to db
         db.session.commit()
         flash('Post has been created!', 'success')
@@ -160,23 +123,28 @@ def new_post():
     return render_template('create_post.html', title='New Post', 
                             form=form, legend='Create Post', hide_sidebar=True)
 
+
 @app.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    comments = Comment.query.filter_by(post_id=post_id).order_by(Comment.date_posted.asc())
+    comments = Comment.query.filter_by(post_id=post_id).order_by(
+            Comment.date_posted.asc())
     tags = Tag.query.filter_by(post_id=post_id)
     has_comments = len(list(comments)) > 0
-    return render_template('post.html', title=post.title, post=post, comments=comments, 
-                           sidebar_posts=sidebar_posts, has_comments=has_comments, tags=tags)
+    return render_template('post.html', title=post.title, post=post,
+            comments=comments, sidebar_posts=sidebar_posts,
+            has_comments=has_comments, tags=tags)
+
 
 @app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
-        abort(403) #forbidden route
+        abort(403)  # forbidden route
     form = PostForm()
-    form.submit.label.text = 'Update' # submit button has a label of 'Update' in this case
+    form.submit.label.text = 'Update'
+    # submit button has a label of 'Update' in this case
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
@@ -208,16 +176,19 @@ def update_post(post_id):
 def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
-        abort(403) #forbidden route
+        abort(403)  # forbidden route
     db.session.delete(post)    
     db.session.commit()
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
 
+
 @app.route("/all_posts")
 def all_posts():
     posts = Post.query.order_by(Post.date_posted.desc())
-    return render_template('all_posts.html', posts=posts, sidebar_posts=sidebar_posts)
+    return render_template('all_posts.html', posts=posts,
+            sidebar_posts=sidebar_posts)
+
 
 @app.route("/post/<int:post_id>/comment", methods=['GET', 'POST'])
 @login_required
@@ -225,12 +196,15 @@ def comment(post_id):
     post = Post.query.get_or_404(post_id)
     form = CommentForm()
     if form.validate_on_submit():
-        comment = Comment(content=form.content.data, user_id=current_user.id, post_id=post.id)
+        comment = Comment(content=form.content.data, user_id=current_user.id,
+                post_id=post.id)
         db.session.add(comment)
         db.session.commit()
         flash('Comment has been posted!', 'success')
         return redirect(url_for('post', post_id=post.id))
-    return render_template('comment.html', title='Comment', form=form, post=post, hide_sidebar=True)
+    return render_template('comment.html', title='Comment', form=form,
+            post=post, hide_sidebar=True)
+
 
 #returns all posts for a certain tag
 @app.route("/all_posts/<string:tag_content>")
@@ -239,8 +213,11 @@ def posts_by_tag(tag_content):
     post_id_set = set()
     for tag in tags:
         post_id_set.add(tag.post_id)
-    posts = db.session.query(Post).filter(Post.id.in_(post_id_set)).order_by(Post.date_posted.desc()).all()
-    return render_template('all_posts.html', posts=posts, sidebar_posts=sidebar_posts, tag=tag_content)
+    posts = db.session.query(Post).filter(Post.id.in_(post_id_set)).order_by(
+            Post.date_posted.desc()).all()
+    return render_template('all_posts.html', posts=posts,
+            sidebar_posts=sidebar_posts, tag=tag_content)
+
 
 #returns all tags, and the number of posts they have
 @app.route("/tags")
