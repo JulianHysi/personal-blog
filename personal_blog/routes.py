@@ -113,34 +113,35 @@ def add_image_tags(content):
 
 def save_post_images(images):
     for image in images:
-        random_hex = secrets.token_hex(8)
-        _, f_ext = os.path.splitext(image.filename)
-        filename = random_hex + f_ext #the name with which the file picture will be saved
-        filepath = os.path.join(app.root_path, 'static/post_images', filename)
+        if image.filename:
+            random_hex = secrets.token_hex(8)
+            _, f_ext = os.path.splitext(image.filename)
+            filename = random_hex + f_ext #the name with which the file picture will be saved
+            filepath = os.path.join(app.root_path, 'static/post_images', filename)
 
-        image_obj = Image.open(image)
-        image_obj.save(filepath)
+            image_obj = Image.open(image)
+            image_obj.save(filepath)
 
 @app.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
     if current_user.is_admin != True:   #only the admin should create posts
-        abort(403)
+        abort(403)  
     form = PostForm()
     if form.validate_on_submit():
         post = Post(title=form.title.data, content=add_image_tags(form.content.data), author=current_user)
         db.session.add(post)
-        #add tags
+        # add tags
         tags = form.tags.data
         tags = tags.split(' ')
         parent_post = Post.query.order_by(Post.date_posted.desc()).first()
         for i in tags:
             tag = Tag(content=i, parent_post=parent_post)
             db.session.add(tag)
-        #add images    
-        images = form.images.data
-        if images:
-            save_post_images(images)
+        # save images
+        images = request.files.getlist('images')
+        save_post_images(images)
+        # commit to db
         db.session.commit()
         flash('Post has been created!', 'success')
         return redirect(url_for('home'))
