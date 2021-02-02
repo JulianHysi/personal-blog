@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = environ.get('SECRET_KEY') #environment variable
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URI')  #environment variable
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
