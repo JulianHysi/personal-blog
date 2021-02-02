@@ -123,11 +123,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Ignore the changes to folder that cointains the profile pics for users
-!personal_blog/static/profile_pics  # not the entire folder
-personal_blog/static/profile_pics/*  # but all its files
-!personal_blog/static/profile_pics/default.png  # except this one
-
 # Ignore changes to the db
 blog.db
 
