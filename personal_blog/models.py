@@ -13,8 +13,11 @@ class User(db.Model, UserMixin):
     profile_pic = db.Column(db.String(20), nullable=False, default='default.png')
     password = db.Column(db.String(60), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
-    posts = db.relationship('Post', backref='author', lazy=True) #'Post' in uppercase because it references the class name
-    comments = db.relationship('Comment', backref='author', lazy=True)
+    posts = db.relationship('Post', backref='author', cascade='all, delete',
+            lazy=True)
+    #'Post' in uppercase because it references the class name
+    comments = db.relationship('Comment', backref='author', cascade='all,delete',
+            lazy=True)
 
     def __repr__(self):
         return f"User: {self.username}, \nEmail: {self.email}\n"

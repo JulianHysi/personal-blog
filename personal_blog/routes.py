@@ -224,3 +224,13 @@ def posts_by_tag(tag_content):
 def tags():
     tags = db.session.query(Tag.content.distinct().label("content")).all()
     return render_template('tags.html', Tag=Tag, Post=Post, db=db, tags=tags)
+
+
+@app.route("/account/deactivate", methods=['POST'])
+@login_required
+def deactivate_account():
+    delete_old_profile_picture(current_user, app)
+    db.session.delete(current_user)    
+    db.session.commit()
+    flash('Your account has been deactivated!', 'success')
+    return redirect(url_for('logout'))
