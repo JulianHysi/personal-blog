@@ -18,11 +18,10 @@ def save_profile_picture(profile_pic, app):
     return filename
 
 
-def delete_old_profile_picture(current_user, app):
-    filename = current_user.profile_pic
+def delete_old_profile_picture(filename, root_path):
     if filename == 'default.png':
         return  # don't delete default.png, it's needed for new users
-    filepath = os.path.join(app.root_path, 'static/profile_pics', filename)
+    filepath = os.path.join(root_path, 'static/profile_pics', filename)
     try:
         os.remove(filepath)
     except:

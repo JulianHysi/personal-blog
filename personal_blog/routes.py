@@ -75,7 +75,7 @@ def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.profile_pic.data:
-            delete_old_profile_picture(current_user, app)
+            delete_old_profile_picture(current_user.profile_pic, app.root_path)
             # deletes the old profile picture file from the filesystem
             profile_pic_file = save_profile_picture(form.profile_pic.data, app)
             current_user.profile_pic = profile_pic_file
@@ -229,8 +229,9 @@ def tags():
 @app.route("/account/deactivate", methods=['POST'])
 @login_required
 def deactivate_account():
-    delete_old_profile_picture(current_user, app)
+    filename = current_user.profile_pic
     db.session.delete(current_user)    
     db.session.commit()
+    delete_old_profile_picture(filename, root_path=app.root_path)
     flash('Your account has been deactivated!', 'success')
     return redirect(url_for('logout'))
