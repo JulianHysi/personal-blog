@@ -24,9 +24,9 @@ Tech stack:
 - SQLAlchemy
 - HTML5 and Boostrap 4
 
-Version Control System used: Git
-License used: MIT (see LICENSE.md for more)
-Contributing: I accept pull requests (see CONTRIBUTE.md for more)
+Version Control System used: Git<br>
+License used: MIT (see LICENSE.md for more)<br>
+Contributing: I accept pull requests (see CONTRIBUTE.md for more)<br>
 <!-- add links for the referenced files above -->
 
 Setting up the virtual environment and dependencies:
