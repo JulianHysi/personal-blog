@@ -229,6 +229,9 @@ def tags():
 @app.route("/account/deactivate", methods=['POST'])
 @login_required
 def deactivate_account():
+    if current_user.is_admin:
+        flash('Admin account cannot be deactivated', 'danger')
+        return redirect(url_for('account'))
     filename = current_user.profile_pic
     db.session.delete(current_user)    
     db.session.commit()
