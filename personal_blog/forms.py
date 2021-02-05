@@ -1,9 +1,13 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, MultipleFileField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField,\
+        TextAreaField, MultipleFileField
+from wtforms.validators import DataRequired, Length, Email, EqualTo,\
+        ValidationError
+from flask_ckeditor import CKEditorField
 from personal_blog.models import User
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=5, max=20)])
@@ -25,15 +29,18 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=5)])
+    password = PasswordField('Password',
+            validators=[DataRequired(), Length(min=5)])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Log In')
 
 
 class UpdateAccountForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=5, max=20)])
+    username = StringField('Username', validators=[DataRequired(),
+        Length(min=5, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    profile_pic = FileField('Update profile picture', validators=[FileAllowed(['jpeg', 'jpg', 'png'])])
+    profile_pic = FileField('Update profile picture',
+            validators=[FileAllowed(['jpeg', 'jpg', 'png'])])
     submit = SubmitField('Update')
 
     def validate_username(self, username):
@@ -50,9 +57,9 @@ class UpdateAccountForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     tags = StringField('Tags', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    images = MultipleFileField('Upload post images', validators=[FileAllowed(['jpeg', 'jpg', 'png'])])
+    content = CKEditorField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
+
 
 class CommentForm(FlaskForm):
     content = TextAreaField('Comment', validators=[DataRequired()])

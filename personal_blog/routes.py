@@ -1,5 +1,5 @@
 from flask import render_template, url_for, flash, redirect, request, abort
-from personal_blog import app, db, bcrypt
+from personal_blog import app, db, bcrypt, ckeditor
 from personal_blog.models import User, Post, Comment, Tag
 from personal_blog.forms import RegistrationForm, LoginForm,\
         UpdateAccountForm, PostForm, CommentForm
