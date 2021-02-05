@@ -1,4 +1,6 @@
-from flask import render_template, url_for, flash, redirect, request, abort
+import os
+from flask import render_template, url_for, flash, redirect, request, abort,\
+        send_from_directory
 from personal_blog import app, db, bcrypt, ckeditor
 from personal_blog.models import User, Post, Comment, Tag
 from personal_blog.forms import RegistrationForm, LoginForm,\
@@ -6,6 +8,7 @@ from personal_blog.forms import RegistrationForm, LoginForm,\
 from personal_blog.utilities import add_image_tags, delete_old_profile_picture
 from personal_blog.utilities import save_profile_picture, save_post_images
 from flask_login import login_user, logout_user, current_user, login_required
+from flask_ckeditor import upload_fail, upload_success
 
 sidebar_posts = Post.query.order_by(Post.date_posted.desc()).limit(5).all()
 
@@ -238,3 +241,20 @@ def deactivate_account():
     delete_old_profile_picture(filename, root_path=app.root_path)
     flash('Your account has been deactivated!', 'success')
     return redirect(url_for('logout'))
+
+
+@app.route('/files/<string:filename>')
+def uploaded_files(filename):
+    path = app.config['UPLOADED_PATH']
+    return send_from_directory(path, filename)
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    f = request.files.get('upload')
+    extension = f.filename.split('.')[-1].lower()
+    if extension not in ['jpg', 'gif', 'png', 'jpeg']:
+        return upload_fail(message='Image only!')
+    f.save(os.path.join(app.config['UPLOADED_PATH'], f.filename))
+    url = url_for('uploaded_files', filename=f.filename)
+    return upload_success(url=url)
