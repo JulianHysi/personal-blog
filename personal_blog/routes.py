@@ -1,4 +1,5 @@
 import os
+from secrets import token_hex
 from flask import render_template, url_for, flash, redirect, request, abort,\
         send_from_directory
 from personal_blog import app, db, bcrypt, ckeditor
@@ -250,7 +251,8 @@ def upload():
     extension = f.filename.split('.')[-1].lower()
     if extension not in ['jpg', 'gif', 'png', 'jpeg']:
         return upload_fail(message='Image only!')
-    filename = str(f.filename).replace(' ', '')
+    random_hex = token_hex(8)
+    filename = ''.join([random_hex, '.', extension])
     f.save(os.path.join(app.config['UPLOADED_PATH'], filename))
     url = url_for('uploaded_files', filename=filename)
     return upload_success(url=url)
