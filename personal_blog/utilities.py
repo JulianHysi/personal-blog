@@ -4,11 +4,11 @@ from PIL import Image
 import secrets
 
 
-def save_profile_picture(profile_pic, app):
+def save_profile_picture(profile_pic, root_path):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(profile_pic.filename)
     filename = random_hex + f_ext  # the name with which it will be saved
-    filepath = os.path.join(app.root_path, 'static/profile_pics', filename)
+    filepath = os.path.join(root_path, 'static/profile_pics', filename)
 
     file_dimensions = (125, 125)  # force these dimensions into the saved file
     image = Image.open(profile_pic)

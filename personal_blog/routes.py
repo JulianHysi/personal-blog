@@ -79,8 +79,8 @@ def account():
     if form.validate_on_submit():
         if form.profile_pic.data:
             delete_old_profile_picture(current_user.profile_pic, app.root_path)
-            # deletes the old profile picture file from the filesystem
-            profile_pic_file = save_profile_picture(form.profile_pic.data, app)
+            profile_pic_file = save_profile_picture(form.profile_pic.data,
+                    app.root_path)
             current_user.profile_pic = profile_pic_file
         current_user.username = form.username.data
         current_user.email = form.email.data
