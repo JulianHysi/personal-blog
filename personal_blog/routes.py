@@ -5,8 +5,8 @@ from personal_blog import app, db, bcrypt, ckeditor
 from personal_blog.models import User, Post, Comment, Tag
 from personal_blog.forms import RegistrationForm, LoginForm,\
         UpdateAccountForm, PostForm, CommentForm
-from personal_blog.utilities import add_image_tags, delete_old_profile_picture
-from personal_blog.utilities import save_profile_picture, save_post_images
+from personal_blog.utilities import delete_old_profile_picture
+from personal_blog.utilities import save_profile_picture, delete_post_images
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_ckeditor import upload_fail, upload_success
 
@@ -106,8 +106,8 @@ def new_post():
         abort(403)  
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(title=form.title.data,
-                content=add_image_tags(form.content.data), author=current_user)
+        post = Post(title=form.title.data, content=form.content.data,
+                author=current_user)
         db.session.add(post)
         # add tags
         tags = form.tags.data
@@ -116,9 +116,6 @@ def new_post():
         for i in tags:
             tag = Tag(content=i, parent_post=parent_post)
             db.session.add(tag)
-        # save images
-        images = request.files.getlist('images')
-        save_post_images(images, app)
         # commit to db
         db.session.commit()
         flash('Post has been created!', 'success')
@@ -147,7 +144,6 @@ def update_post(post_id):
         abort(403)  # forbidden route
     form = PostForm()
     form.submit.label.text = 'Update'
-    # submit button has a label of 'Update' in this case
     if form.validate_on_submit():
         post.title = form.title.data
         post.content = form.content.data
@@ -165,11 +161,8 @@ def update_post(post_id):
     elif request.method == 'GET':
         form.title.data = post.title
         form.content.data = post.content
-        tags = list()
-        for tag in post.tags:
-            tags.append(tag.content)
-        tag_str = ' '.join(tags)    
-        form.tags.data = tag_str
+        tags = [tag.content for tag in post.tags]
+        form.tags.data = ' '.join(tags)
     return render_template('create_post.html', title='Update Post',
                             form=form, legend='Update Post', hide_sidebar=True)
 
@@ -180,8 +173,10 @@ def delete_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)  # forbidden route
+    content = post.content
     db.session.delete(post)    
     db.session.commit()
+    delete_post_images(content, app.root_path)
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
 
@@ -255,6 +250,7 @@ def upload():
     extension = f.filename.split('.')[-1].lower()
     if extension not in ['jpg', 'gif', 'png', 'jpeg']:
         return upload_fail(message='Image only!')
-    f.save(os.path.join(app.config['UPLOADED_PATH'], f.filename))
-    url = url_for('uploaded_files', filename=f.filename)
+    filename = str(f.filename).replace(' ', '')
+    f.save(os.path.join(app.config['UPLOADED_PATH'], filename))
+    url = url_for('uploaded_files', filename=filename)
     return upload_success(url=url)

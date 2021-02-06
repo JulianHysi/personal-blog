@@ -28,31 +28,13 @@ def delete_old_profile_picture(filename, root_path):
         pass
 
 
-#receives the post as parameter, adds appropriate img tags if needed,
-# and returns the new content
-def add_image_tags(content):
-    pattern = re.compile(r'pic\d+')
-    # matches every occurence of 'pic' followed by one or more digits
+def delete_post_images(content, root_path):
+    pattern = re.compile(r'src="/files/([^"]+)"')
     matches = pattern.finditer(content)
-    match_count = 0
     for match in matches:
-        match_count += 1
-        matched_phrase = match.group(0)
-        # group(0) returns the entire match phrase
-        new_phrase = '<img src="smiley.gif" alt="image">' #to be completed
-        content = content.replace(matched_phrase, new_phrase, 1)
-    return content
-
-
-def save_post_images(images, app):
-    for image in images:
-        if image.filename:
-            random_hex = secrets.token_hex(8)
-            _, f_ext = os.path.splitext(image.filename)
-            filename = random_hex + f_ext
-            # the name with which the file picture will be saved
-            filepath = os.path.join(app.root_path, 'static/post_images',
-                    filename)
-
-            image_obj = Image.open(image)
-            image_obj.save(filepath)
+        filename = match.group(1)
+        filepath = os.path.join(root_path, 'static/post_images', filename)
+        try:
+            os.remove(filepath)
+        except:
+            pass
