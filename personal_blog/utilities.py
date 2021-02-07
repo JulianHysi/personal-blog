@@ -2,6 +2,9 @@ import re
 import os
 from PIL import Image
 import secrets
+from flask_mail import Message
+from flask import url_for
+from personal_blog import mail
 
 
 def save_profile_picture(profile_pic, root_path):
@@ -38,3 +41,15 @@ def delete_post_images(content, root_path):
             os.remove(filepath)
         except:
             pass
+
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    msg = Message('Password Reset Request', sender='admin@blog.com',
+            recipients=[user.email])
+    msg.body = f'''To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}  
+
+If you did not make this request, simply ignore this email.
+    '''
+    mail.send(msg)
