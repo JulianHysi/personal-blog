@@ -1,6 +1,8 @@
-from personal_blog import db, login_manager # __main__ == flaskblog.py in this case. Avoids circular importing.
+from personal_blog import db, login_manager, app
 from datetime import datetime
 from flask_login import UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -21,6 +23,19 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User: {self.username}, \nEmail: {self.email}\n"
+
+    def get_reset_token(self, expiration_secs=600):
+        serializer = Serializer(app.config['SECRET_KEY'], expiration_secs)
+        return serializer.dumps({'user_id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verify_reset_token(token):
+        serializer = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = serializer.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
 
 
 class Post(db.Model):
