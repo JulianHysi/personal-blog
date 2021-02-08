@@ -6,14 +6,14 @@
     <article class="content-section">
         <div>
             <h3>
-                <a class="article-title" href="{{ url_for('posts_by_tag', tag_content=tag.content) }}">#{{ tag.content }}</a>
+                <a class="article-title" href="{{ url_for('posts.posts_by_tag', tag_content=tag.content) }}">#{{ tag.content }}</a>
                 <small id="tag-count">({{ Tag.query.filter_by(content=tag.content).count() }} posts)</small>
             </h3>
             <br>
             <div>
                 <ul>
                     {% for post in db.session.query(Post).join(Tag).filter_by(content=tag.content).order_by(Post.date_posted.desc()).all() %}
-                        <li>- <a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></li><br>
+                        <li>- <a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></li><br>
                     {% endfor %}
                 </ul>
             </div>

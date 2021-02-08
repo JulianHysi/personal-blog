@@ -14,7 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['CKEDITOR_SERVE_LOCAL'] = True
 app.config['CKEDITOR_PKG_TYPE'] = 'standard'
 app.config['CKEDITOR_ENABLE_CODESNIPPET'] = True
-app.config['CKEDITOR_FILE_UPLOADER'] = 'upload'
+app.config['CKEDITOR_FILE_UPLOADER'] = 'posts.upload'
 app.config['CKEDITOR_HEIGHT'] = 500
 app.config['UPLOADED_PATH'] = os.path.join(app.root_path, 'static/post_images')
 app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
@@ -29,7 +29,13 @@ ckeditor = CKEditor(app)
 login_manager = LoginManager(app)
 mail = Mail(app)
 
-login_manager.login_view = 'login'
+login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'  # bootstrap class
 
-from personal_blog import routes
+from personal_blog.main.routes import main 
+from personal_blog.users.routes import users
+from personal_blog.posts.routes import posts
+
+app.register_blueprint(main)
+app.register_blueprint(users)
+app.register_blueprint(posts)

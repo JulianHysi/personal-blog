@@ -1,11 +1,9 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField,\
-        TextAreaField, MultipleFileField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo,\
-        ValidationError
-from flask_ckeditor import CKEditorField
+    ValidationError
+from flask_login import current_user
 from personal_blog.models import User
 
 
@@ -53,18 +51,6 @@ class UpdateAccountForm(FlaskForm):
         if user and user.email != current_user.email:
             raise ValidationError('Email is already taken!')
 
-
-class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    tags = StringField('Tags', validators=[DataRequired()])
-    content = CKEditorField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
-
-
-class CommentForm(FlaskForm):
-    content = TextAreaField('Comment', validators=[DataRequired()])
-    submit = SubmitField('Post')
-    
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
