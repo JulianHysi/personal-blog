@@ -1,10 +1,10 @@
 import os
 from flask import Blueprint, render_template, url_for, flash, redirect,\
-    request, abort, send_from_directory
+    request, abort, send_from_directory, current_app
 from flask_login import current_user, login_required
 from flask_ckeditor import upload_fail, upload_success
 from secrets import token_hex
-from personal_blog import app, db
+from personal_blog import db
 from personal_blog.models import Post, Tag, Comment
 from personal_blog.posts.forms import PostForm, CommentForm
 from personal_blog.utilities import get_sidebar_posts, delete_post_images
@@ -89,7 +89,7 @@ def delete_post(post_id):
     content = post.content
     db.session.delete(post)    
     db.session.commit()
-    delete_post_images(content, app.root_path)
+    delete_post_images(content, current_app.root_path)
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('main.home'))
 
@@ -139,7 +139,7 @@ def tags():
 
 @posts.route('/files/<string:filename>')
 def uploaded_files(filename):
-    path = app.config['UPLOADED_PATH']
+    path = current_app.config['UPLOADED_PATH']
     return send_from_directory(path, filename)
 
 
@@ -151,6 +151,6 @@ def upload():
         return upload_fail(message='Image only!')
     random_hex = token_hex(8)
     filename = ''.join([random_hex, '.', extension])
-    f.save(os.path.join(app.config['UPLOADED_PATH'], filename))
+    f.save(os.path.join(current_app.config['UPLOADED_PATH'], filename))
     url = url_for('posts.uploaded_files', filename=filename)
     return upload_success(url=url)

@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, url_for, flash, redirect, request
+from flask import Blueprint, render_template, url_for, flash, redirect,\
+        request, current_app
 from flask_login import login_user, current_user, logout_user, login_required
-from personal_blog import app, db, bcrypt
+from personal_blog import db, bcrypt
 from personal_blog.models import User
 from personal_blog.users.forms import RegistrationForm, LoginForm,\
     UpdateAccountForm, RequestResetForm, ResetPasswordForm
@@ -63,9 +64,10 @@ def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.profile_pic.data:
-            delete_old_profile_picture(current_user.profile_pic, app.root_path)
+            delete_old_profile_picture(current_user.profile_pic,\
+                    current_app.root_path)
             profile_pic_file = save_profile_picture(form.profile_pic.data,
-                    app.root_path)
+                    current_app.root_path)
             current_user.profile_pic = profile_pic_file
         current_user.username = form.username.data
         current_user.email = form.email.data
@@ -93,7 +95,7 @@ def deactivate_account():
     filename = current_user.profile_pic
     db.session.delete(current_user)    
     db.session.commit()
-    delete_old_profile_picture(filename, root_path=app.root_path)
+    delete_old_profile_picture(filename, root_path=current_app.root_path)
     flash('Your account has been deactivated!', 'success')
     return redirect(url_for('users.logout'))
 
