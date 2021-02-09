@@ -1,9 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
+
 <div class="content-section">
+
     <form method="POST" action="">
+
         {{ form.hidden_tag() }} <!-- CSRF token-->
+
         <fieldset class="form-group">
+
             <legend class="border-bottom mb-4">Comment on post :</legend>
             
             <h2 class="article-title">{{ post.title }}</h2> <br>
@@ -23,13 +28,16 @@
                     {{ form.content(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+
         </fieldset>
+
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
-            <button class="btn btn-warning">
-                <a href="{{ url_for('main.home') }}">Cancel</a>
-            </button>
+            <button class="btn btn-warning" onclick="history.back(-1)">Cancel</button>
         </div>
+
     </form>
+
 </div>
+
 {% endblock content %}
