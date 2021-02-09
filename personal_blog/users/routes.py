@@ -5,8 +5,9 @@ from personal_blog import db, bcrypt
 from personal_blog.models import User
 from personal_blog.users.forms import RegistrationForm, LoginForm,\
     UpdateAccountForm, RequestResetForm, ResetPasswordForm
-from personal_blog.utilities import save_profile_picture, send_reset_email,\
-        delete_old_profile_picture, get_sidebar_posts
+from personal_blog.users.utilities import save_profile_picture,\
+        delete_old_profile_picture, send_reset_email
+from personal_blog.main.utilities import get_sidebar_posts
 
 users = Blueprint('users', __name__)
 

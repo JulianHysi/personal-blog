@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template
 from personal_blog.models import Post
-from personal_blog.utilities import get_sidebar_posts
+from personal_blog.main.utilities import get_sidebar_posts
 
 main = Blueprint('main', __name__)
 

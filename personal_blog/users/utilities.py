@@ -1,11 +1,9 @@
-import re
 import os
-from PIL import Image
 import secrets
+from PIL import Image
 from flask_mail import Message
 from flask import url_for
 from personal_blog import mail
-from personal_blog.models import Post
 
 
 def save_profile_picture(profile_pic, root_path):
@@ -32,18 +30,6 @@ def delete_old_profile_picture(filename, root_path):
         pass
 
 
-def delete_post_images(content, root_path):
-    pattern = re.compile(r'src="/files/([^"]+)"')
-    matches = pattern.finditer(content)
-    for match in matches:
-        filename = match.group(1)
-        filepath = os.path.join(root_path, 'static/post_images', filename)
-        try:
-            os.remove(filepath)
-        except:
-            pass
-
-
 def send_reset_email(user):
     token = user.get_reset_token()
     msg = Message('Password Reset Request', sender='admin@blog.com',
@@ -54,7 +40,3 @@ def send_reset_email(user):
 If you did not make this request, simply ignore this email.
     '''
     mail.send(msg)
-    
-
-def get_sidebar_posts():
-    return Post.query.order_by(Post.date_posted.desc()).limit(5).all()

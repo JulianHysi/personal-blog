@@ -7,7 +7,8 @@ from secrets import token_hex
 from personal_blog import db
 from personal_blog.models import Post, Tag, Comment
 from personal_blog.posts.forms import PostForm, CommentForm
-from personal_blog.utilities import get_sidebar_posts, delete_post_images
+from personal_blog.main.utilities import get_sidebar_posts
+from personal_blog.posts.utilities import delete_post_images
 
 posts = Blueprint('posts', __name__)
 
