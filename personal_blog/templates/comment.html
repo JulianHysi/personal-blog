@@ -12,7 +12,7 @@
             <legend class="border-bottom mb-4">Comment on post :</legend>
             
             <h2 class="article-title">{{ post.title }}</h2> <br>
-            <p class="article-content">{{ post.content }}</p> <br>
+            <p class="article-content">{{ post.content | safe }}</p> <br>
 
             <div class="form-group">
                 {{ form.content.label(class="form-control-label") }}
