@@ -33,7 +33,7 @@
 
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
-            <button class="btn btn-warning" onclick="history.back(-1)">Cancel</button>
+            <button class="btn btn-warning"><a href="{{ url_for('home') }}">Cancel</></button>
         </div>
 
     </form>
