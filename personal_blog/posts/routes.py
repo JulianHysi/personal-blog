@@ -1,9 +1,11 @@
 import os
+from secrets import token_hex
+
 from flask import Blueprint, render_template, url_for, flash, redirect,\
     request, abort, send_from_directory, current_app
 from flask_login import current_user, login_required
 from flask_ckeditor import upload_fail, upload_success
-from secrets import token_hex
+
 from personal_blog import db
 from personal_blog.models import Post, Tag, Comment
 from personal_blog.posts.forms import PostForm, CommentForm

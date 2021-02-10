@@ -1,8 +1,10 @@
 import os
 import secrets
+
 from PIL import Image
 from flask_mail import Message
 from flask import url_for
+
 from personal_blog import mail
 
 
