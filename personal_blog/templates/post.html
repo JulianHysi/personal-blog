@@ -23,7 +23,7 @@
             {% endfor %}
           </p>
         <h2 class="article-title">{{ post.title }}</h2> <br>
-        <p class="article-content">{{ post.content | safe }}</p> <!-- '| safe' marks the text as safe to render html tags -->
+        <p class="article-content">{{ post.content | safe }}</p> <!-- '| safe' marks the text as safe to render html -->
         <br>
         <a class="btn btn-warning ml-2 right" href="https://www.facebook.com/sharer/sharer.php?u=example.org"
             target="_blank">Share on Facebook</a>
@@ -32,7 +32,7 @@
     </div>
 </article>
 
-{% if has_comments %}
+{% if comments  %}
   <div id="comment-section">
     <h4>Comments :</h4>
   </div>
@@ -76,4 +76,5 @@
       </div>
     </div>
 </div>  
+
 {% endblock content %}

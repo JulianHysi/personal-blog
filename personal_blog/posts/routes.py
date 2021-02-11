@@ -46,10 +46,8 @@ def post(post_id):
     comments = Comment.query.filter_by(post_id=post_id).order_by(
             Comment.date_posted.asc())
     tags = Tag.query.filter_by(post_id=post_id)
-    has_comments = len(list(comments)) > 0
     return render_template('post.html', title=post.title, post=post,
-            comments=comments, sidebar_posts=get_sidebar_posts(),
-            has_comments=has_comments, tags=tags)
+            comments=comments, tags=tags, sidebar_posts=get_sidebar_posts())
 
 
 @posts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
@@ -124,10 +122,8 @@ def comment(post_id):
 @posts.route("/all_posts/<string:tag_content>")
 def posts_by_tag(tag_content):
     tags = Tag.query.filter_by(content=tag_content).all()
-    post_id_set = set()
-    for tag in tags:
-        post_id_set.add(tag.post_id)
-    posts = db.session.query(Post).filter(Post.id.in_(post_id_set)).order_by(
+    post_ids = [tag.post_id for tag in tags]
+    posts = db.session.query(Post).filter(Post.id.in_(post_ids)).order_by(
             Post.date_posted.desc()).all()
     return render_template('all_posts.html', posts=posts,
             sidebar_posts=get_sidebar_posts(), tag=tag_content)
