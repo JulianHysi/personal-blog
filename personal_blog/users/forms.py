@@ -8,10 +8,14 @@ from personal_blog.models import User
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=5, max=20)])
+    username = StringField('Username', validators=[DataRequired(),
+                           Length(min=5, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=5)])
-    confirm_password = PasswordField(' Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    password = PasswordField('Password', validators=[DataRequired(),
+                             Length(min=5)])
+    confirm_password = PasswordField(' Confirm Password',
+                                     validators=[DataRequired(),
+                                                 EqualTo('password')])
     submit = SubmitField('Register')
 
     def validate_username(self, username):
@@ -22,23 +26,23 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
-            raise ValidationError('Email is already taken!')        
+            raise ValidationError('Email is already taken!')
 
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password',
-            validators=[DataRequired(), Length(min=5)])
+                             validators=[DataRequired(), Length(min=5)])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Log In')
 
 
 class UpdateAccountForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(),
-        Length(min=5, max=20)])
+    username = StringField('Username',
+                           validators=[DataRequired(), Length(min=5, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     profile_pic = FileField('Update profile picture',
-            validators=[FileAllowed(['jpeg', 'jpg', 'png'])])
+                            validators=[FileAllowed(['jpeg', 'jpg', 'png'])])
     submit = SubmitField('Update')
 
     def validate_username(self, username):
@@ -59,13 +63,14 @@ class RequestResetForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if not user:
-            raise ValidationError('If an account with this email exists, '
-                    'a password reset email will be sent shortly')
+            raise ValidationError('If an account with this email exists, a '
+                                  'password reset email will be sent shortly')
 
 
 class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password',
-            validators=[DataRequired(), Length(min=5)])
+                             validators=[DataRequired(), Length(min=5)])
     confirm_password = PasswordField('Confirm Password',
-            validators=[DataRequired(), EqualTo('password')])
+                                     validators=[DataRequired(),
+                                                 EqualTo('password')])
     submit = SubmitField('Reset password')

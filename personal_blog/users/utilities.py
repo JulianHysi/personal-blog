@@ -26,18 +26,15 @@ def delete_old_profile_picture(filename, root_path):
     if filename == 'default.png':
         return  # don't delete default.png, it's needed for new users
     filepath = os.path.join(root_path, 'static/profile_pics', filename)
-    try:
-        os.remove(filepath)
-    except:
-        pass
+    os.remove(filepath)
 
 
 def send_reset_email(user):
     token = user.get_reset_token()
     msg = Message('Password Reset Request', sender='admin@blog.com',
-            recipients=[user.email])
+                  recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link:
-{url_for('users.reset_token', token=token, _external=True)}  
+{url_for('users.reset_token', token=token, _external=True)}
 
 If you did not make this request, simply ignore this email.
     '''

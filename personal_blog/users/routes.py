@@ -29,10 +29,10 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'Account {form.username.data} has been registered. '
-                'You can proceed with the login.', 'success')
+              'You can proceed with the login.', 'success')
         return redirect(url_for('users.login'))
     return render_template('register.html', title='Register', form=form,
-            hide_sidebar=True)
+                           hide_sidebar=True)
 
 
 @users.route("/login", methods=['GET', 'POST'])
@@ -42,16 +42,19 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+        if user and bcrypt.check_password_hash(user.password,
+                                               form.password.data):
             login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next') #'next' is the parameter in the url
+            next_page = request.args.get('next')
+            # 'next' is the parameter in the url
             if next_page:
                 return redirect(next_page)
             else:
                 return redirect(url_for('main.home'))
         else:
-            flash('Please enter the right credentials..', 'danger')    
-    return render_template('login.html', title='Log In', form=form, hide_sidebar=True)
+            flash('Please enter the right credentials..', 'danger')
+    return render_template('login.html', title='Log In', form=form,
+                           hide_sidebar=True)
 
 
 @users.route("/logout")
@@ -66,10 +69,10 @@ def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.profile_pic.data:
-            delete_old_profile_picture(current_user.profile_pic,\
-                    current_app.root_path)
+            delete_old_profile_picture(current_user.profile_pic,
+                                       current_app.root_path)
             profile_pic_file = save_profile_picture(form.profile_pic.data,
-                    current_app.root_path)
+                                                    current_app.root_path)
             current_user.profile_pic = profile_pic_file
         current_user.username = form.username.data
         current_user.email = form.email.data
@@ -80,12 +83,12 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
 
-    profile_pic_path = url_for('static',
-                filename='profile_pics/' + current_user.profile_pic)
+    profile_pic_path = url_for(
+        'static', filename='profile_pics/' + current_user.profile_pic)
 
     return render_template('account.html', title='Profile',
-            profile_pic_path=profile_pic_path, form=form,
-            sidebar_posts=get_sidebar_posts())
+                           profile_pic_path=profile_pic_path, form=form,
+                           sidebar_posts=get_sidebar_posts())
 
 
 @users.route("/account/deactivate", methods=['POST'])
@@ -95,7 +98,7 @@ def deactivate_account():
         flash('Admin account cannot be deactivated', 'danger')
         return redirect(url_for('users.account'))
     filename = current_user.profile_pic
-    db.session.delete(current_user)    
+    db.session.delete(current_user)
     db.session.commit()
     delete_old_profile_picture(filename, root_path=current_app.root_path)
     flash('Your account has been deactivated!', 'success')
@@ -110,11 +113,11 @@ def reset_request():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         send_reset_email(user)
-        flash('An email has been sent with instructions to reset your password'
-                , 'info')
+        flash('An email has been sent with instructions to reset '
+              'your password', 'info')
         return redirect(url_for('users.login'))
     return render_template('reset_request.html', title='Reset Password',
-            form=form)
+                           form=form)
 
 
 @users.route('/reset_password/<string:token>', methods=['GET', 'POST'])
@@ -131,8 +134,8 @@ def reset_token(token):
         hashed_passwd = bcrypt.generate_password_hash(passwd).decode('utf-8')
         user.password = hashed_passwd
         db.session.commit()
-        flash(f'Your password has been updated. '
-                'You can proceed with the login.', 'success')
+        flash('Your password has been updated. '
+              'You can proceed with the login.', 'success')
         return redirect(url_for('users.login'))
     return render_template('reset_token.html', title='Reset Password',
-            form=form)
+                           form=form)
