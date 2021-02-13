@@ -1,3 +1,25 @@
+"""personal_blog is a package that can be used for, as the name
+suggests, building a simple personal blog/profile website.
+
+Objects
+-------
+    db : SQLAlchemy
+        the database instance of the application
+    bcrypt: Bcrypt
+        a tool used for encrypting/decripting
+    ckeditor : CKEditor
+        a tool used as text area editor
+    login_manager : LoginManager
+        a tool used for managing logged in sessions
+    mail : Mail
+        a tool used for sending emails
+
+Functions
+---------
+    create_app : returns a Flask instance
+        used for creating and initializing a Flask instance
+"""
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
