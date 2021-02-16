@@ -71,3 +71,12 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(20), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+
+
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(60), nullable=False)
+    authors = db.Column(db.String(60), nullable=False)
+    edition = db.Column(db.String(20), nullable=False)
+    link = db.Column(db.String(60))
+    description = db.Column(db.Text, nullable=False)

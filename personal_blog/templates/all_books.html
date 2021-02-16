@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <h3 class="mb-3">Books I've Read:</h3>
+
+    {% for book in books %}
+    <article class="media content-section">
+        <div class="media-body">
+            <h2 class="article-title">{{ book.title }}</h2>
+            <p>{{ book.authors }}</p>
+            <p>{{ book.edition }}</p>
+            {% if book.link %}
+                <p>{{ book.link }}</p>
+            {% endif %}
+            <p>{{ book.description }}</p>
+        </div>
+    </article>
+    {% endfor %}
+
+{% endblock content %}

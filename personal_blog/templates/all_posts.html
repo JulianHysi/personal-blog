@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+
     {% if not tag %}
         <h3 class="mb-3">All posts, in chronological order :</h3>
     {% else %}
@@ -20,4 +21,5 @@
         </div>
     </article>
     {% endfor %}
+
 {% endblock content %}

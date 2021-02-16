@@ -52,10 +52,12 @@ def create_app():
     from personal_blog.main.routes import main
     from personal_blog.users.routes import users
     from personal_blog.posts.routes import posts
+    from personal_blog.books.routes import books
     from personal_blog.errors.handlers import errors
     app.register_blueprint(main)
     app.register_blueprint(users)
     app.register_blueprint(posts)
+    app.register_blueprint(books)
     app.register_blueprint(errors)
 
     return app

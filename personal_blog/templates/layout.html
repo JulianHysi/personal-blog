@@ -31,22 +31,24 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarToggle">
                         <div class="navbar-nav mr-auto">
-                        <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
-                        <div class="dropdown">
-                            <a href="javascript:void(0)" class="nav-item nav-link dropbtn">Posts</a>
-                            <div class="dropdown-content">
-                                <a class="nav-item nav-link" href="{{ url_for('posts.all_posts') }}">All Posts</a>
-                                <a class="nav-item nav-link" href="{{ url_for('posts.tags') }}">Posts by Tag</a>
+                            <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
+                            <div class="dropdown">
+                                <a href="javascript:void(0)" class="nav-item nav-link dropbtn">Posts</a>
+                                <div class="dropdown-content">
+                                    <a class="nav-item nav-link" href="{{ url_for('posts.all_posts') }}">All Posts</a>
+                                    <a class="nav-item nav-link" href="{{ url_for('posts.tags') }}">Posts by Tag</a>
+                                </div>
                             </div>
-                        </div>
-                        <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</a>
+                            <a class="nav-item nav-link" href="{{ url_for('books.all_books') }}">Books</>
+                            <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</a>
                         </div>
                         <!-- Navbar Right Side -->
                         <div class="navbar-nav">
                         {% if current_user.is_authenticated %}
                             {% if current_user.is_admin  %} 
-                            <!-- show the New Post option only when it's me who is logged in -->
+                            <!-- show the New Post and Add Book option only when it's me who is logged in -->
                                 <a class="nav-item nav-link" href="{{ url_for('posts.new_post') }}">New post</a>
+                                <a class="nav-item nav-link" href="{{ url_for('books.add_book') }}">Add Book</a>
                             {% endif %}
                             <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Profile</a>
                             <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Log Out</a>
