@@ -3,16 +3,25 @@
 
 <article class="media content-section">
     <div class="media-body">
-        <br>
-        <h2 class="article-title">{{ book.title }}</h2> <br>
+
+        {% if current_user.is_admin %}
+            <div class="article-metadata">
+                <div class="right"> 
+                    <a class="btn btn-success btn-sm" href="{{ url_for('books.update_book', book_id=book.id) }}">Update</a>
+                </div>
+                <br><br>
+            </div>
+        {% endif %}
+
+        <h2 class="article-title mt-2">{{ book.title }}</h2>
         <p>{{ book.authors }}</p>
         <p>{{ book.edition }}</p>
         {% if book.link %}
             <p>{{ book.link }}</p>
         {% endif %}
         <p class="article-content">{{ book.description }}</p>
+
     </div>
 </article>
 
 {% endblock content %}
-
