@@ -36,7 +36,7 @@ def new_post():
         db.session.commit()
         flash('Post has been created!', 'success')
         return redirect(url_for('main.home'))
-    return render_template('create_post.html', title='New Post',
+    return render_template('posts/create_post.html', title='New Post',
                            form=form, legend='Create Post', hide_sidebar=True)
 
 
@@ -46,7 +46,7 @@ def post(post_id):
     comments = Comment.query.filter_by(post_id=post_id).order_by(
             Comment.date_posted.asc())
     tags = Tag.query.filter_by(post_id=post_id)
-    return render_template('post.html', title=post.title, post=post,
+    return render_template('posts/post.html', title=post.title, post=post,
                            comments=comments, tags=tags,
                            sidebar_posts=get_sidebar_posts())
 
@@ -78,7 +78,7 @@ def update_post(post_id):
         form.content.data = post.content
         tags = [tag.content for tag in post.tags]
         form.tags.data = ' '.join(tags)
-    return render_template('create_post.html', title='Update Post',
+    return render_template('posts/create_post.html', title='Update Post',
                            form=form, legend='Update Post', hide_sidebar=True)
 
 
@@ -99,7 +99,7 @@ def delete_post(post_id):
 @posts.route("/all_posts")
 def all_posts():
     posts = Post.query.order_by(Post.date_posted.desc())
-    return render_template('all_posts.html', posts=posts,
+    return render_template('posts/all_posts.html', posts=posts,
                            sidebar_posts=get_sidebar_posts())
 
 
@@ -115,7 +115,7 @@ def comment(post_id):
         db.session.commit()
         flash('Comment has been posted!', 'success')
         return redirect(url_for('posts.post', post_id=post.id))
-    return render_template('comment.html', title='Comment', form=form,
+    return render_template('posts/comment.html', title='Comment', form=form,
                            post=post, hide_sidebar=True)
 
 
@@ -126,7 +126,7 @@ def posts_by_tag(tag_content):
     post_ids = [tag.post_id for tag in tags]
     posts = db.session.query(Post).filter(Post.id.in_(post_ids)).order_by(
             Post.date_posted.desc()).all()
-    return render_template('all_posts.html', posts=posts,
+    return render_template('posts/all_posts.html', posts=posts,
                            sidebar_posts=get_sidebar_posts(), tag=tag_content)
 
 
@@ -134,7 +134,8 @@ def posts_by_tag(tag_content):
 @posts.route("/tags")
 def tags():
     tags = db.session.query(Tag.content.distinct().label("content")).all()
-    return render_template('tags.html', Tag=Tag, Post=Post, db=db, tags=tags)
+    return render_template('posts/tags.html', Tag=Tag, Post=Post, db=db,
+                           tags=tags)
 
 
 @posts.route('/files/<string:filename>')

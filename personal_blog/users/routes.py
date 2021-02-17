@@ -31,7 +31,7 @@ def register():
         flash(f'Account {form.username.data} has been registered. '
               'You can proceed with the login.', 'success')
         return redirect(url_for('users.login'))
-    return render_template('register.html', title='Register', form=form,
+    return render_template('users/register.html', title='Register', form=form,
                            hide_sidebar=True)
 
 
@@ -53,7 +53,7 @@ def login():
                 return redirect(url_for('main.home'))
         else:
             flash('Please enter the right credentials..', 'danger')
-    return render_template('login.html', title='Log In', form=form,
+    return render_template('users/login.html', title='Log In', form=form,
                            hide_sidebar=True)
 
 
@@ -86,7 +86,7 @@ def account():
     profile_pic_path = url_for(
         'static', filename='profile_pics/' + current_user.profile_pic)
 
-    return render_template('account.html', title='Profile',
+    return render_template('users/account.html', title='Profile',
                            profile_pic_path=profile_pic_path, form=form,
                            sidebar_posts=get_sidebar_posts())
 
@@ -116,7 +116,7 @@ def reset_request():
         flash('An email has been sent with instructions to reset '
               'your password', 'info')
         return redirect(url_for('users.login'))
-    return render_template('reset_request.html', title='Reset Password',
+    return render_template('users/reset_request.html', title='Reset Password',
                            form=form)
 
 
@@ -137,5 +137,5 @@ def reset_token(token):
         flash('Your password has been updated. '
               'You can proceed with the login.', 'success')
         return redirect(url_for('users.login'))
-    return render_template('reset_token.html', title='Reset Password',
+    return render_template('users/reset_token.html', title='Reset Password',
                            form=form)

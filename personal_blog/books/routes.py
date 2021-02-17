@@ -24,21 +24,21 @@ def add_book():
         db.session.commit()
         flash('Book has been added!', 'success')
         return redirect(url_for('books.all_books'))
-    return render_template('add_book.html', title='New Book',
+    return render_template('books/add_book.html', title='New Book',
                            form=form, legend='Add Book', hide_sidebar=True)
 
 
 @books.route("/all_books")
 def all_books():
     books = Book.query.all()
-    return render_template('all_books.html', books=books,
+    return render_template('books/all_books.html', books=books,
                            sidebar_posts=get_sidebar_posts())
 
 
 @books.route("/book/<int:book_id>")
 def book(book_id):
     book = Book.query.get_or_404(book_id)
-    return render_template('book.html', title=book.title, book=book,
+    return render_template('books/book.html', title=book.title, book=book,
                            sidebar_posts=get_sidebar_posts())
 
 
@@ -66,7 +66,7 @@ def update_book(book_id):
         form.edition.data = book.edition
         form.link.data = book.link
         form.description.data = book.description
-    return render_template('add_book.html', title='Update Book',
+    return render_template('books/add_book.html', title='Update Book',
                            form=form, legend='Update Book', hide_sidebar=True)
 
 
