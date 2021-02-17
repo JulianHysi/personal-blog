@@ -68,3 +68,15 @@ def update_book(book_id):
         form.description.data = book.description
     return render_template('add_book.html', title='Update Book',
                            form=form, legend='Update Book', hide_sidebar=True)
+
+
+@books.route("/book/<int:book_id>/delete", methods=['POST'])
+@login_required
+def delete_book(book_id):
+    book = Book.query.get_or_404(book_id)
+    if not current_user.is_admin:
+        abort(403)  # forbidden route
+    db.session.delete(book)
+    db.session.commit()
+    flash('Book has been deleted!', 'success')
+    return redirect(url_for('books.all_books'))
