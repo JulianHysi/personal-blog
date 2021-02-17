@@ -32,9 +32,9 @@
     </div>
 </article>
 
-{% if comments  %}
+{% if comments.all() | length %}  <!-- check if query result set length is not 0 -->
   <div id="comment-section">
-    <h4>Comments :</h4>
+      <h4>Comments :</h4>
   </div>
   <div>
     {% for comment in comments %}
