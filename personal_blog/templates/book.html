@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<article class="media content-section">
+    <div class="media-body">
+        <br>
+        <h2 class="article-title">{{ book.title }}</h2> <br>
+        <p>{{ book.authors }}</p>
+        <p>{{ book.edition }}</p>
+        {% if book.link %}
+            <p>{{ book.link }}</p>
+        {% endif %}
+        <p class="article-content">{{ book.description }}</p>
+    </div>
+</article>
+
+{% endblock content %}
+

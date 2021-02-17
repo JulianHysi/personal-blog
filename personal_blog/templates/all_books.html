@@ -1,18 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
 
-    <h3 class="mb-3">Books I've Read:</h3>
+    <h3 class="mb-3">Books I've read and recommend</h3>
+    <p class="text-muted mb-3">Click the title to see my notes on the book</p>
 
     {% for book in books %}
     <article class="media content-section">
         <div class="media-body">
-            <h2 class="article-title">{{ book.title }}</h2>
+            <h2><a class="article-title" href="{{ url_for('books.book', book_id=book.id) }}">{{ book.title }}</a></h2>
             <p>{{ book.authors }}</p>
             <p>{{ book.edition }}</p>
             {% if book.link %}
                 <p>{{ book.link }}</p>
             {% endif %}
-            <p>{{ book.description }}</p>
         </div>
     </article>
     {% endfor %}

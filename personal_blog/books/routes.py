@@ -32,3 +32,10 @@ def all_books():
     books = Book.query.all()
     return render_template('all_books.html', books=books,
                            sidebar_posts=get_sidebar_posts())
+    
+
+@books.route("/book/<int:book_id>")
+def book(book_id):
+    book = Book.query.get_or_404(book_id)
+    return render_template('book.html', title=book.title, book=book,
+                           sidebar_posts=get_sidebar_posts())
