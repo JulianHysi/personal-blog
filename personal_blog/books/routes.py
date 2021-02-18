@@ -5,7 +5,6 @@ from flask_login import current_user, login_required
 from personal_blog import db
 from personal_blog.models import Book
 from personal_blog.books.forms import BookForm
-from personal_blog.main.utilities import get_sidebar_posts
 
 books = Blueprint('books', __name__)
 
@@ -31,15 +30,13 @@ def add_book():
 @books.route("/all_books")
 def all_books():
     books = Book.query.all()
-    return render_template('books/all_books.html', books=books,
-                           sidebar_posts=get_sidebar_posts())
+    return render_template('books/all_books.html', books=books)
 
 
 @books.route("/book/<int:book_id>")
 def book(book_id):
     book = Book.query.get_or_404(book_id)
-    return render_template('books/book.html', title=book.title, book=book,
-                           sidebar_posts=get_sidebar_posts())
+    return render_template('books/book.html', title=book.title, book=book)
 
 
 @books.route("/book/<int:book_id>/update", methods=['GET', 'POST'])

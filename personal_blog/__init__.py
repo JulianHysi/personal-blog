@@ -49,7 +49,9 @@ def create_app():
     login_manager.init_app(app)
     mail.init_app(app)
 
-    from personal_blog.main.routes import main
+    with app.app_context():
+        from personal_blog.main.routes import main
+
     from personal_blog.users.routes import users
     from personal_blog.posts.routes import posts
     from personal_blog.books.routes import books

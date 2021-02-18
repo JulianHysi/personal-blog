@@ -9,7 +9,6 @@ from flask_ckeditor import upload_fail, upload_success
 from personal_blog import db
 from personal_blog.models import Post, Tag, Comment
 from personal_blog.posts.forms import PostForm, CommentForm
-from personal_blog.main.utilities import get_sidebar_posts
 from personal_blog.posts.utilities import delete_post_images
 
 posts = Blueprint('posts', __name__)
@@ -47,8 +46,7 @@ def post(post_id):
             Comment.date_posted.asc())
     tags = Tag.query.filter_by(post_id=post_id)
     return render_template('posts/post.html', title=post.title, post=post,
-                           comments=comments, tags=tags,
-                           sidebar_posts=get_sidebar_posts())
+                           comments=comments, tags=tags)
 
 
 @posts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
@@ -99,8 +97,7 @@ def delete_post(post_id):
 @posts.route("/all_posts")
 def all_posts():
     posts = Post.query.order_by(Post.date_posted.desc())
-    return render_template('posts/all_posts.html', posts=posts,
-                           sidebar_posts=get_sidebar_posts())
+    return render_template('posts/all_posts.html', posts=posts)
 
 
 @posts.route("/post/<int:post_id>/comment", methods=['GET', 'POST'])
@@ -127,7 +124,7 @@ def posts_by_tag(tag_content):
     posts = db.session.query(Post).filter(Post.id.in_(post_ids)).order_by(
             Post.date_posted.desc()).all()
     return render_template('posts/all_posts.html', posts=posts,
-                           sidebar_posts=get_sidebar_posts(), tag=tag_content)
+                           tag=tag_content)
 
 
 # returns all tags, and the number of posts they have

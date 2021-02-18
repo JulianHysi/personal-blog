@@ -8,7 +8,6 @@ from personal_blog.users.forms import RegistrationForm, LoginForm,\
     UpdateAccountForm, RequestResetForm, ResetPasswordForm
 from personal_blog.users.utilities import save_profile_picture,\
         delete_old_profile_picture, send_reset_email
-from personal_blog.main.utilities import get_sidebar_posts
 
 users = Blueprint('users', __name__)
 
@@ -87,8 +86,7 @@ def account():
         'static', filename='profile_pics/' + current_user.profile_pic)
 
     return render_template('users/account.html', title='Profile',
-                           profile_pic_path=profile_pic_path, form=form,
-                           sidebar_posts=get_sidebar_posts())
+                           profile_pic_path=profile_pic_path, form=form)
 
 
 @users.route("/account/deactivate", methods=['POST'])
