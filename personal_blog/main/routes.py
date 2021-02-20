@@ -1,7 +1,6 @@
 from flask import Blueprint, request, render_template
 
 from personal_blog.models import Post
-from personal_blog.main import utilities
 
 main = Blueprint('main', __name__)
 
