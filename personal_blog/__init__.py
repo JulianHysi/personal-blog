@@ -17,7 +17,7 @@ Objects
 Functions
 ---------
     create_app : returns a Flask instance
-        used for creating and initializing a Flask instance
+        used for creating and initializing an application instance
 """
 
 from flask import Flask
@@ -39,9 +39,13 @@ login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'  # bootstrap class
 
 
-def create_app():
+def create_app(test_config=None):
     app = Flask(__name__)
-    app.config.from_object(Config(app.root_path))
+
+    if not test_config:
+        app.config.from_object(Config(app.root_path))
+    else:
+        app.config.from_mapping(test_config)
 
     db.init_app(app)
     bcrypt.init_app(app)
