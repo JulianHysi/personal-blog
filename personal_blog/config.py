@@ -4,7 +4,9 @@
 
 Classes
 ------
-    Config: the class used to store configuration values
+    Config: the class used to store general configuration values
+    DevelopentConfig: extends Config with development extras
+    TestingConfig: extends Config with testing extras
 """
 
 import os
@@ -82,3 +84,35 @@ class Config:
         """
 
         self.UPLOADED_PATH = os.path.join(root_path, 'static/post_images')
+
+
+class DevelopmentConfig(Config):
+    """
+    A class extending base Config, used in development mode
+
+    ---
+
+    Class constants
+    ---------------
+    DEBUG : bool
+        enables interactive debugger and server reload on change
+        have it on only when developing, not in production
+    """
+
+    DEBUG = True
+
+
+class TestingConfig(Config):
+    """
+    A class extending base Config, used in testing mode
+
+    ---
+
+    Class constants
+    ---------------
+    TESTING: bool
+        enables exceptions to bubble up even if they're handled by code
+        have it on only when testing
+    """
+
+    TESTING = True
