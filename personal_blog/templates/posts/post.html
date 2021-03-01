@@ -25,10 +25,21 @@
         <h2 class="article-title">{{ post.title }}</h2> <br>
         <p class="article-content">{{ post.content | safe }}</p> <!-- '| safe' marks the text as safe to render html -->
         <br>
-        <a class="btn btn-warning ml-2 right" href="https://www.facebook.com/sharer/sharer.php?u=example.org"
-            target="_blank">Share on Facebook</a>
-        <a class="btn btn-warning right" href="https://twitter.com/share?url=#">Share on Twitter</a>
-        <a class="btn btn-info" href="{{ url_for('posts.comment', post_id=post.id) }}">Comment</a>
+
+        <div class="bottom-btns">
+
+          <div class="comment-btn mr-1 mb-1">
+            <a class="btn btn-info" href="{{ url_for('posts.comment', post_id=post.id) }}">Comment</a>
+          </div>
+
+          <div class="share-btns">
+            <a class="btn btn-warning mr-1 mb-1" href="https://twitter.com/share?url=#">Share on Twitter</a>
+            <a class="btn btn-warning mb-1" href="https://www.facebook.com/sharer/sharer.php?u=example.org"
+                target="_blank">Share on Facebook</a>
+          </div>
+
+        </div>
+
     </div>
 </article>
 

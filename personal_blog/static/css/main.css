@@ -120,3 +120,19 @@ form textarea#content {height: 500px;}
 }
 
 .sidebar-section:last-child {border-bottom: none;}
+
+.bottom-btns
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-btn
+{
+  flex: 2;
+}
+
+.share-btns
+{
+  flex: 3
+}
