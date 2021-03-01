@@ -17,7 +17,7 @@
             <br><br>
             {% endif %}
         </div> <br>
-        <p class="right">
+        <p style="text-align: right;">
             {% for tag in tags %}
             <a href="{{ url_for('posts.posts_by_tag', tag_content=tag.content) }}">#{{ tag.content }}</a>
             {% endfor %}
