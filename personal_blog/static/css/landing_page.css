@@ -44,7 +44,7 @@ body
     font-size: 20px;
     text-decoration: none;
     color: #d1eed7;
-    border: #3634d4 2px solid;
+    border: #f00 2px solid;
     padding: 10px 20px;
     border-radius: 10px;
     margin-top: 30px;
@@ -55,16 +55,15 @@ body
     background: #ff1111;
 }
 
+
+/* Sections */
+
 #section-a
 {
     padding: 20px;
     background: #926239;
     text-align: center;
 }
-
-
-/* Sections */
-
 
 .pimg2, .pimg3
 {
