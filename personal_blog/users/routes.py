@@ -44,8 +44,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password,
                                                form.password.data):
             login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            # 'next' is the parameter in the url
+            next_page = request.args.get('next')  # url parameter
             if next_page:
                 return redirect(next_page)
             else:
