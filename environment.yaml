@@ -43,6 +43,7 @@ dependencies:
   - zipp=3.4.0=pyhd3eb1b0_0
   - zlib=1.2.11=h7b6447c_3
   - pip:
+    - alembic==1.5.5
     - bcrypt==3.2.0
     - blinker==1.4
     - cffi==1.14.4
@@ -52,9 +53,13 @@ dependencies:
     - flask-ckeditor==0.4.4.1
     - flask-login==0.5.0
     - flask-mail==0.9.1
+    - flask-migrate==2.7.0
     - flask-wtf==0.14.3
     - idna==3.1
+    - mako==1.1.4
     - pillow==8.1.0
     - pycparser==2.20
+    - python-dateutil==2.8.1
+    - python-editor==1.0.4
     - wtforms==2.3.3
 prefix: /home/julian/anaconda3/envs/personal_blog_env

@@ -5,6 +5,8 @@ Objects
 -------
     db : SQLAlchemy
         the database instance of the application
+    migrate: Migrate
+        a tool used for database migrations
     bcrypt: Bcrypt
         a tool used for encrypting/decripting
     ckeditor : CKEditor
@@ -26,10 +28,12 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_ckeditor import CKEditor
 from flask_mail import Mail
+from flask_migrate import Migrate
 
 from personal_blog.config import Config
 
 db = SQLAlchemy()
+migrate = Migrate()
 bcrypt = Bcrypt()
 ckeditor = CKEditor()
 login_manager = LoginManager()
@@ -48,6 +52,7 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     db.init_app(app)
+    migrate.init_app(app, db)
     bcrypt.init_app(app)
     ckeditor.init_app(app)
     login_manager.init_app(app)
