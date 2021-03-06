@@ -96,7 +96,9 @@ def delete_post(post_id):
 
 @posts.route("/all_posts")
 def all_posts():
-    posts = Post.query.order_by(Post.date_posted.desc())
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,
+                                                                  per_page=10)
     return render_template('posts/all_posts.html', posts=posts)
 
 
