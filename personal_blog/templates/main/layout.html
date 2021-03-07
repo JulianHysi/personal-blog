@@ -106,7 +106,8 @@
                                     <ul>
                                         <br>
                                         {% for post in sidebar_posts %}
-                                            <li><p>- <a href="{{ url_for('posts.post', post_id=post.id)}}">{{post.title}}</a></p></li>
+                                            <li><p>- <a href="{{ url_for('posts.post', post_id=post.id)}}">
+                                                        {{post.title}}</a></p></li>
                                         {%endfor%}
                                         <br>
                                     </ul>

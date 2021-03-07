@@ -12,8 +12,9 @@
             <br>
             <div>
                 <ul>
-                    {% for post in db.session.query(Post).join(Tag).filter_by(content=tag.content).order_by(Post.date_posted.desc()).all() %}
-                        <li>- <a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></li><br>
+                    {% for post in db.session.query(Post).join(Tag).filter_by(content=tag.content).order_by(
+                        Post.date_posted.desc()).all() %}
+                            <li>- <a href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></li><br>
                     {% endfor %}
                 </ul>
             </div>
