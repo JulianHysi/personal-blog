@@ -26,6 +26,8 @@ class Config:
         the location of the database file used by the application
     SQLALCHEMY_TRACK_MODIFICATIONS : bool
         track modifications of objects and emit signals
+    ELASTICSEARCH_URL: str
+        url for connecting to the elastic search server
 
     CKEDITOR_SERVE_LOCAL : bool
         enable serving resources from local when use ckeditor.load(),
@@ -59,9 +61,10 @@ class Config:
         create instance with UPLOADED_PATH attribute
     """
 
-    SECRET_KEY = os.environ.get('SECRET_KEY')  # environment variable
+    SECRET_KEY = os.environ.get('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
 
     CKEDITOR_SERVE_LOCAL = True
     CKEDITOR_PKG_TYPE = 'standard'

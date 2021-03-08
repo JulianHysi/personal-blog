@@ -22,6 +22,7 @@ Functions
         used for creating and initializing an application instance
 """
 
+from elasticsearch import Elasticsearch
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -50,6 +51,11 @@ def create_app(test_config=None):
         app.config.from_object(Config(app.root_path))
     else:
         app.config.from_mapping(test_config)
+
+    if app.config['ELASTICSEARCH_URL']:
+        app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']])
+    else:
+        app.elasticsearch = None
 
     db.init_app(app)
     migrate.init_app(app, db)

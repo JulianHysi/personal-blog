@@ -35,7 +35,7 @@ Setting up the virtual environment and dependencies:
 3. hit 'conda env create -f environment.yaml --name env\_name' to create the virtual environment
 4. hit 'conda activate your\_env\_name' to activate the virtual environment
 5. while the environment is activated, hit 'conda list' to verify the dependencies have been indeed installed
-6. set SECRET\_KEY, DATABASE\_URI, MAIL\_USERNAME and MAIL\_PASSWORD environment variables
+6. set SECRET\_KEY, DATABASE\_URI, MAIL\_USERNAME, MAIL\_PASSWORD and ELASTICSEARCH\_URL environment variables
 
 Running the application:
 1. make sure you have the above mentioned dependencies installed, and the virtual env activated
