@@ -32,9 +32,12 @@ def search():
     posts, total = Post.search(g.search_form.q.data, page, 3)
     if total == -1:
         abort(500)
+    elif total == 0:
+        return render_template('main/search.html', title='Search',
+                               results=False)
     next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) \
         if total > page * 6 else None
     prev_url = url_for('main.search', q=g.search_form.q.data, page=page - 1) \
         if page > 1 else None
     return render_template('main/search.html', title='Search', posts=posts,
-                           next_url=next_url, prev_url=prev_url)
+                           next_url=next_url, prev_url=prev_url, results=True)
