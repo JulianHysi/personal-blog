@@ -36,6 +36,7 @@ Setting up the virtual environment and dependencies:
 4. hit 'conda activate your\_env\_name' to activate the virtual environment
 5. while the environment is activated, hit 'conda list' to verify the dependencies have been indeed installed
 6. set SECRET\_KEY, DATABASE\_URI, MAIL\_USERNAME, MAIL\_PASSWORD and ELASTICSEARCH\_URL environment variables
+7. install, config and run Elastic server following this guide: https://tecadmin.net/setup-elasticsearch-on-ubuntu/
 
 Running the application:
 1. make sure you have the above mentioned dependencies installed, and the virtual env activated
