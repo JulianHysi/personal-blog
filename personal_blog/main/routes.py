@@ -1,4 +1,5 @@
-from flask import Blueprint, request, render_template, g, redirect, url_for
+from flask import Blueprint, request, render_template, g, redirect, url_for,\
+        abort
 
 from personal_blog.models import Post
 
@@ -29,6 +30,8 @@ def search():
         return redirect(url_for('main.home'))
     page = request.args.get('page', 1, type=int)
     posts, total = Post.search(g.search_form.q.data, page, 3)
+    if total == -1:
+        abort(500)
     next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) \
         if total > page * 6 else None
     prev_url = url_for('main.search', q=g.search_form.q.data, page=page - 1) \

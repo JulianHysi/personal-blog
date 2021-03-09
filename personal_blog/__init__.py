@@ -53,7 +53,8 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     if app.config['ELASTICSEARCH_URL']:
-        app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']])
+        es = Elasticsearch([app.config['ELASTICSEARCH_URL']])
+        app.elasticsearch = es if es.ping() else None
     else:
         app.elasticsearch = None
 
