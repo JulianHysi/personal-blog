@@ -31,8 +31,6 @@ from flask_ckeditor import CKEditor
 from flask_mail import Mail
 from flask_migrate import Migrate
 
-from personal_blog.config import ProductionConfig
-
 db = SQLAlchemy()
 migrate = Migrate()
 bcrypt = Bcrypt()
@@ -44,13 +42,10 @@ login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'  # bootstrap class
 
 
-def create_app(test_config=None):
+def create_app(config_class):
     app = Flask(__name__)
 
-    if not test_config:
-        app.config.from_object(ProductionConfig(app.root_path))
-    else:
-        app.config.from_mapping(test_config)
+    app.config.from_object(config_class(app.root_path))
 
     if app.config['ELASTICSEARCH_URL']:
         es = Elasticsearch([app.config['ELASTICSEARCH_URL']])
