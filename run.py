@@ -17,8 +17,9 @@ app : FlaskApp
 """
 
 from personal_blog import create_app
+from personal_blog.config import ProductionConfig
 
-app = create_app()
+app = create_app(ProductionConfig)
 
 if __name__ == '__main__':
     app.run()
