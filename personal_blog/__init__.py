@@ -31,7 +31,7 @@ from flask_ckeditor import CKEditor
 from flask_mail import Mail
 from flask_migrate import Migrate
 
-from personal_blog.config import DevelopmentConfig
+from personal_blog.config import ProductionConfig
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -48,7 +48,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
 
     if not test_config:
-        app.config.from_object(DevelopmentConfig(app.root_path))
+        app.config.from_object(ProductionConfig(app.root_path))
     else:
         app.config.from_mapping(test_config)
 
