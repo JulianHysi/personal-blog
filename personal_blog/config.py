@@ -105,7 +105,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
 
 
-class TestingConfig(Config):
+class TestConfig(Config):
     """
     A class extending base Config, used in testing mode
 
@@ -119,3 +119,19 @@ class TestingConfig(Config):
     """
 
     TESTING = True
+
+
+class ProductionConfig(Config):
+    """
+    A class extending base Config, used in production
+
+    ---
+
+    Class constants
+    ---------------
+    TESTING: bool
+        enables exceptions to bubble up even if they're handled by code
+        have it on only when testing
+    """
+
+    TESTING = False
