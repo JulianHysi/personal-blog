@@ -7,7 +7,7 @@
         <h3 class="mb-3">All #{{tag}} posts, in chronological order :</h3>
     {% endif %}
 
-    {% for post in posts.items %}
+    {% for post in posts %}
     <article class="media content-section">
         <a href="{{ url_for('posts.all_posts') }}">
             <img class="rounded-circle article-img"

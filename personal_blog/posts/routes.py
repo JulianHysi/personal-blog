@@ -99,7 +99,7 @@ def all_posts():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,
                                                                   per_page=10)
-    return render_template('posts/all_posts.html', posts=posts)
+    return render_template('posts/all_posts.html', posts=posts.items)
 
 
 @posts.route("/post/<int:post_id>/comment", methods=['GET', 'POST'])
