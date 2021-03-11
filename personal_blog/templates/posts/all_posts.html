@@ -4,10 +4,10 @@
     {% if not tag %}
         <h3 class="mb-3">All posts :</h3>
     {% else %}
-        <h3 class="mb-3">All #{{tag}} posts, in chronological order :</h3>
+        <h3 class="mb-3">All #{{tag}} posts :</h3>
     {% endif %}
 
-    {% for post in posts %}
+    {% for post in posts.items %}
     <article class="media content-section">
         <a href="{{ url_for('posts.all_posts') }}">
             <img class="rounded-circle article-img"

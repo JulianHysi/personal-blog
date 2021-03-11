@@ -99,7 +99,7 @@ def all_posts():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,
                                                                   per_page=10)
-    return render_template('posts/all_posts.html', posts=posts.items)
+    return render_template('posts/all_posts.html', posts=posts)
 
 
 @posts.route("/post/<int:post_id>/comment", methods=['GET', 'POST'])
@@ -123,8 +123,9 @@ def comment(post_id):
 def posts_by_tag(tag_content):
     tags = Tag.query.filter_by(content=tag_content).all()
     post_ids = [tag.post_id for tag in tags]
+    page = request.args.get('page', 1, type=int)
     posts = db.session.query(Post).filter(Post.id.in_(post_ids)).order_by(
-            Post.date_posted.desc()).all()
+            Post.date_posted.desc()).paginate(page=page, per_page=10)
     return render_template('posts/all_posts.html', posts=posts,
                            tag=tag_content)
 
