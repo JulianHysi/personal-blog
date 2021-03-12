@@ -55,6 +55,11 @@ class Config:
     MAIL_PASSWORD : str
         the password of the account used for sending mails
 
+    PER_PAGE_MAIN: int
+        number of pagination posts per page in homepage
+    PER_PAGE_GLOBAL: int
+        number of pagination posts per page elsewhere
+
     Methods
     -------
     __iter__(self, root_path)
@@ -77,6 +82,9 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+
+    PER_PAGE_HOME = 2
+    PER_PAGE_GLOBAL = 2
 
     def __init__(self, root_path):
         """
@@ -129,9 +137,11 @@ class ProductionConfig(Config):
 
     Class constants
     ---------------
-    TESTING: bool
-        enables exceptions to bubble up even if they're handled by code
-        have it on only when testing
+    PER_PAGE_MAIN: int
+        number of pagination posts per page in homepage
+    PER_PAGE_GLOBAL: int
+        number of pagination posts per page elsewhere
     """
 
-    TESTING = False
+    PER_PAGE_HOME = 6
+    PER_PAGE_GLOBAL = 10

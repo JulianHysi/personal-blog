@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, g, redirect, url_for,\
-        abort
+        abort, current_app
 
 from personal_blog.models import Post
 
@@ -13,9 +13,9 @@ def landing_page():
 
 @main.route("/home")
 def home():
-    page = request.args.get('page', 1, type=int)  # url query parameter
-    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,
-                                                                  per_page=6)
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(
+        page=page, per_page=current_app.config['PER_PAGE_HOME'])
     return render_template('main/home.html', posts=posts)
 
 

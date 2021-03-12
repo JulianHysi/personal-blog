@@ -97,8 +97,8 @@ def delete_post(post_id):
 @posts.route("/all_posts")
 def all_posts():
     page = request.args.get('page', 1, type=int)
-    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page,
-                                                                  per_page=10)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(
+        page=page, per_page=current_app.config['PER_PAGE_GLOBAL'])
     return render_template('posts/all_posts.html', posts=posts)
 
 
@@ -125,7 +125,8 @@ def posts_by_tag(tag_content):
     post_ids = [tag.post_id for tag in tags]
     page = request.args.get('page', 1, type=int)
     posts = db.session.query(Post).filter(Post.id.in_(post_ids)).order_by(
-            Post.date_posted.desc()).paginate(page=page, per_page=10)
+            Post.date_posted.desc()).paginate(
+                page=page, per_page=current_app.config['PER_PAGE_GLOBAL'])
     return render_template('posts/posts_by_tag.html', posts=posts,
                            tag=tag_content)
 
