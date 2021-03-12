@@ -1,7 +1,7 @@
 {% extends "main/layout.html" %}
 {% block content %}
 
-    <h3 class="mb-3">All posts :</h3>
+    <h3 class="mb-3">All #{{tag}} posts :</h3>
 
     {% include "posts/_posts_overview.html" %}
 		
@@ -9,9 +9,11 @@
         {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
             {% if page_num %}
                 {% if posts.page == page_num %}
-                    <a class="btn btn-info mb-4" href="{{ url_for('posts.all_posts', page=page_num) }}">{{ page_num }}</a>
+                    <a class="btn btn-info mb-4" href="{{ url_for('posts.posts_by_tag', tag_content=tag, page=page_num) }}">
+                            {{ page_num }}</a>
                 {% else %}
-                    <a class="btn btn-outline-info mb-4" href="{{ url_for('posts.all_posts', page=page_num) }}">{{ page_num }}</a>
+                    <a class="btn btn-outline-info mb-4" href="{{ url_for('posts.posts_by_tag', tag_content=tag,
+                                                                          page=page_num) }}">{{ page_num }}</a>
                 {% endif %}
             {% else %}
                 ...

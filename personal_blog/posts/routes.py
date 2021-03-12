@@ -126,7 +126,7 @@ def posts_by_tag(tag_content):
     page = request.args.get('page', 1, type=int)
     posts = db.session.query(Post).filter(Post.id.in_(post_ids)).order_by(
             Post.date_posted.desc()).paginate(page=page, per_page=10)
-    return render_template('posts/all_posts.html', posts=posts,
+    return render_template('posts/posts_by_tag.html', posts=posts,
                            tag=tag_content)
 
 
