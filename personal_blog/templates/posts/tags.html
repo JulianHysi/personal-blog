@@ -6,7 +6,9 @@
     <article class="content-section">
         <div>
             <h3>
-                <a class="article-title" href="{{ url_for('posts.posts_by_tag', tag_content=tag.content) }}">#{{ tag.content }}</a>
+                <a class="article-title" href="{{ url_for('posts.posts_by_tag', tag_content=tag.content) }}">
+                    <span class="badge badge-pill badge-secondary">#{{ tag.content }}</span>
+                </a>
                 <small id="tag-count">({{ Tag.query.filter_by(content=tag.content).count() }} posts)</small>
             </h3>
             <br>
