@@ -1,5 +1,6 @@
 {% extends "main/layout.html" %}
 {% block content %}
+
 <article class="media content-section">
     <a href="{{ url_for('posts.all_posts') }}">
       <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.profile_pic) }}">

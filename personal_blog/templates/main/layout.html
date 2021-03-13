@@ -11,7 +11,7 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}"> 
 
-    {{ ckeditor.load_code_theme() }}
+    {% block ckeditor %} {% endblock %}
 
     {% if title %}
         <title>Julian's Blog - {{ title }}</title>
@@ -84,8 +84,8 @@
         
             <div class="row">
 
-                <!-- Flashed messages -->
                 <div class="col-md-8">
+                    <!-- Flashed messages -->
                     {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
                             {% for category, message in messages %}
@@ -95,7 +95,10 @@
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
-                    {% block content %}{% endblock %}
+                    
+                    <!-- Content block -->
+                    {% block content %} {% endblock %}
+
                 </div>
 
                   {% if not hide_sidebar %}
