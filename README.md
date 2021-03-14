@@ -12,7 +12,8 @@ Features include:
 - create, edit and delete an account/profile
 - auth system
 - create, edit, and delete posts (admin only)
-- comment on a post 
+- comment on a post
+- full-text search posts 
 - add tags to the post when you create it
 - view posts, by user, by tag or by date (no need to be logged in)
 
@@ -22,6 +23,7 @@ Tech stack:
 - Jinja2
 - SQLite
 - SQLAlchemy
+- ElasticSearch
 - HTML5 and Boostrap 4
 
 Version Control System used: Git<br>
@@ -37,6 +39,7 @@ Setting up the virtual environment and dependencies:
 5. while the environment is activated, hit 'conda list' to verify the dependencies have been indeed installed
 6. set SECRET\_KEY, DATABASE\_URI, MAIL\_USERNAME, MAIL\_PASSWORD and ELASTICSEARCH\_URL environment variables
 7. install, config and run Elastic server following this guide: https://tecadmin.net/setup-elasticsearch-on-ubuntu/
+8. hit 'flask db upgrade' to create the db schema (FLASK_APP must be exported in order for the flask command to work)
 
 Running the application:
 1. make sure you have the above mentioned dependencies installed, and the virtual env activated
