@@ -31,6 +31,8 @@ from flask_ckeditor import CKEditor
 from flask_mail import Mail
 from flask_migrate import Migrate
 
+from personal_blog.config import DevelopmentConfig
+
 db = SQLAlchemy()
 migrate = Migrate()
 bcrypt = Bcrypt()
@@ -42,7 +44,7 @@ login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'  # bootstrap class
 
 
-def create_app(config_class):
+def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__)
 
     app.config.from_object(config_class(app.root_path))
