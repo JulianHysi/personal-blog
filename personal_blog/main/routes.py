@@ -29,7 +29,8 @@ def search():
     if not g.search_form.validate():
         return redirect(url_for('main.home'))
     page = request.args.get('page', 1, type=int)
-    posts, total = Post.search(g.search_form.q.data, page, 3)
+    posts, total = Post.search(g.search_form.q.data, page,
+                               current_app.config['PER_PAGE_GLOBAL'])
     if total == -1:
         abort(500)
     elif total == 0:

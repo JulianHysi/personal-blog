@@ -14,6 +14,7 @@ def load_user(user_id):
 
 
 class SearchableMixin(object):
+    """A glue layer between the SQLAlchemy and Elasticsearch worlds."""
     @classmethod
     def search(cls, expression, page, per_page):
         ids, total = query_index(cls.__tablename__, expression, page, per_page)
