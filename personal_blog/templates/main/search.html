@@ -25,20 +25,27 @@
         {% endfor %}
 
         <nav aria-label="...">
-            <ul class="pager">
-                <li class="previous{% if not prev_url %} disabled{% endif %}">
-                    <a href="{{ prev_url or '#' }}">
-                        <span aria-hidden="true">&larr;</span>
-                        Previous results
-                    </a>
-                </li>
-                <li class="next{% if not next_url %} disabled{% endif %}">
-                    <a href="{{ next_url or '#' }}">
-                        Next results
-                        <span aria-hidden="true">&rarr;</span>
-                    </a>
-                </li>
-            </ul>
+            <div class="text-center">
+            {% if prev_url %}
+                <a class="btn btn-outline-info mb-4" href="{{ prev_url }}">
+                    <span aria-hidden="true">&larr;</span>Prev
+                </a>
+            {% else %} 
+                <a class="btn btn-outline-info mb-4 disabled" href="#">
+                    <span aria-hidden="true">&larr;</span>Prev
+                </a>
+            {% endif %}
+            
+            {% if next_url %}
+                <a class="btn btn-outline-info mb-4" href="{{ next_url }}">
+                    Next<span aria-hidden="true">&rarr;</span>
+                </a>
+            {%  else %}
+                <a class="btn btn-outline-info mb-4 disabled" href="#">
+                    Next<span aria-hidden="true">&rarr;</span>
+                </a>
+            {% endif %}
+            </div>
         </nav>
 
     {% endif %}

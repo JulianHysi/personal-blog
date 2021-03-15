@@ -29,15 +29,15 @@ def search():
     if not g.search_form.validate():
         return redirect(url_for('main.home'))
     page = request.args.get('page', 1, type=int)
-    posts, total = Post.search(g.search_form.q.data, page,
-                               current_app.config['PER_PAGE_GLOBAL'])
+    per_page = current_app.config['PER_PAGE_GLOBAL']
+    posts, total = Post.search(g.search_form.q.data, page, per_page)
     if total == -1:
         abort(500)
     elif total == 0:
         return render_template('main/search.html', title='Search',
                                results=False)
     next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) \
-        if total > page * 6 else None
+        if total > page * per_page else None
     prev_url = url_for('main.search', q=g.search_form.q.data, page=page - 1) \
         if page > 1 else None
     return render_template('main/search.html', title='Search', posts=posts,
