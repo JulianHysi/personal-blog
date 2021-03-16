@@ -2,10 +2,10 @@
 
 ## Personal blog website that I'm building using Python and Flask
 
-I use this project for my own personal blog, however, it is not really tailored to the core for my own specific needs.
-It can still serve as a simple, general-purpose blog for almost anyone out there.
-It can also be of great use if you'd like to play around with Python, Flask or web development in general.
-I accept pull requests (See [CONTRIBUTING.MD](https://github.com/JulianHysi/personal_blog/blob/master/CONTRIBUTING.md) for more)
+I use this project for my own personal blog, however, it is not really tailored to the core for my own specific needs.  
+It can still serve as a simple, general-purpose blog for almost anyone out there.  
+It can also be of great use if you'd like to play around with Python, Flask or web development in general.  
+I accept pull requests (See [CONTRIBUTING.MD](https://github.com/JulianHysi/personal_blog/blob/master/CONTRIBUTING.md) for more)  
 
 <!-- add here a link to the blog, and a screenshot of it -->
 
@@ -40,7 +40,7 @@ I accept pull requests (See [CONTRIBUTING.MD](https://github.com/JulianHysi/pers
 
 ### Setting environment variables:
 1. `SECRET_KEY` (random hex that should be kept secret, see Flask docs for more)
-2. `DATABASE_URI` (sqlite database uri, you may set it to `sqlite:///blog.db`)
+2. `DATABASE_URI` (sqlite database uri, you may set it to `sqlite:///blog.db`)  
 **the following 3 variables are necessary only if you want the full functionality**
 3. `MAIL_USERNAME` (the email account used for sending emails to users, needed by the password reset feature)
 4. `MAIL_PASSWORD` (the email password used for sending emails to users, needed by the password reset feature)
