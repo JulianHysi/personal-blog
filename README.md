@@ -5,19 +5,21 @@
 I use this project for my own personal blog, however, it is not really tailored to the core for my own specific needs.
 It can still serve as a simple, general-purpose blog for almost anyone out there.
 It can also be of great use if you'd like to play around with Python, Flask or web development in general.
+I accept pull requests (See [CONTRIBUTING.MD](https://github.com/JulianHysi/personal_blog/blob/master/CONTRIBUTING.md) for more)
 
 <!-- add here a link to the blog, and a screenshot of it -->
 
-Features include:
-- create, edit and delete an account/profile
+### Features include:
+- create, edit and delete an account/profile, reset password
 - auth system
-- create, edit, and delete posts (admin only)
-- comment on a post
+- create, edit and delete posts (admin only)
+- create, edit and delete books (admin only) 
+- comment on a post (users only)
 - full-text search posts 
 - add tags to the post when you create it
-- view posts, by user, by tag or by date (no need to be logged in)
+- view posts (by user, by tag, sorted by date, paginated)
 
-Tech stack:
+### Tech stack:
 - Python 3.x
 - Flask
 - Jinja2
@@ -26,22 +28,25 @@ Tech stack:
 - ElasticSearch
 - HTML5 and Boostrap 4
 
-Version Control System used: Git<br>
-License used: MIT (see LICENSE.md for more)<br>
-Contributing: I accept pull requests (see CONTRIBUTE.md for more)<br>
-<!-- add links for the referenced files above -->
-
-Setting up the virtual environment and dependencies:
+### Setting up the virtual environment and dependencies:
 1. install Anaconda and verify it works (see Anaconda docs if you don't know how)
 2. clone the repo locally and cd to it's folder
-3. hit 'conda env create -f environment.yaml --name env\_name' to create the virtual environment
-4. hit 'conda activate your\_env\_name' to activate the virtual environment
-5. while the environment is activated, hit 'conda list' to verify the dependencies have been indeed installed
-6. set SECRET\_KEY, DATABASE\_URI, MAIL\_USERNAME, MAIL\_PASSWORD and ELASTICSEARCH\_URL environment variables
+3. hit `conda env create -f environment.yaml --name env_name` to create the virtual environment
+4. hit `conda activate env_name` to activate the virtual environment
+5. while the environment is activated, hit `conda list` to verify the dependencies have indeed been installed
+6. set environment variables (see section below)
 7. install, config and run Elastic server following this guide: https://tecadmin.net/setup-elasticsearch-on-ubuntu/
-8. hit 'flask db upgrade' to create the db schema (FLASK_APP must be exported in order for the flask command to work)
+8. hit `flask db upgrade` to create the db schema (FLASK_APP must be exported in order for the flask command to work)
 
-Running the application:
+### Setting environment variables:
+1. `SECRET_KEY` (random hex that should be kept secret, see Flask docs for more)
+2. `DATABASE_URI` (sqlite database uri, you may set it to `sqlite:///blog.db`)
+**the following 3 variables are necessary only if you want the full functionality**
+3. `MAIL_USERNAME` (the email account used for sending emails to users, needed by the password reset feature)
+4. `MAIL_PASSWORD` (the email password used for sending emails to users, needed by the password reset feature)
+5. `ELASTICSEARCH_URL` (elastic database url, needed by search feature, usually it's `http://localhost:9200`)
+
+### Running the application:
 1. make sure you have the above mentioned dependencies installed, and the virtual env activated
-2. in the project's top level directory, hit 'python run.py'
+2. in the project's top level directory, hit `python run.py`
 3. the server should start, and you can access the localhost port 5000 on a browser to see the app
