@@ -7,6 +7,7 @@ Classes
     Config: the class used to store general configuration values
     DevelopentConfig: extends Config with development extras
     TestingConfig: extends Config with testing extras
+    ProductionConfig: extends Config with production extras
 """
 
 import os
@@ -88,6 +89,10 @@ class Config:
 
     def __init__(self, root_path):
         """
+        Init UPLOADED_PATH constant as the path to upload post images.
+
+        ---
+
         Parameters
         ----------
         root_path : str
