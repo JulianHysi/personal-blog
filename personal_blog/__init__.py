@@ -45,6 +45,28 @@ login_manager.login_message_category = 'info'  # bootstrap class
 
 
 def create_app(config_class=DevelopmentConfig):
+    """Factory function used for creating application instances.
+
+    Create instance of Flask base class.
+    Load the passed configuration.
+    Add elasticsearch instance attribute if possible.
+    Initialize instances of flask extensions.
+    Import and register blueprints.
+
+    ---
+
+    Parameters
+    ----------
+    config_class: one of the classes which inherit from base Config
+        the class used for loading configuration values
+        defaults to DevelopmentConfig class
+
+    Returns
+    -------
+    app: instance of Flask base case
+        the application instance with everything set up
+    """
+
     app = Flask(__name__)
 
     app.config.from_object(config_class(app.root_path))
