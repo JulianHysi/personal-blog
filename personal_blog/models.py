@@ -39,7 +39,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-class SearchableMixin(object):
+class SearchableMixin():
     """A glue layer between the SQLAlchemy and Elasticsearch worlds.
 
     ---
