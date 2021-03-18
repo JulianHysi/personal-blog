@@ -1,3 +1,21 @@
+"""Module containing route functions for the books blueprint.
+
+---
+
+Functions
+---------
+add_book(): return http response
+    the route for adding books
+all_books(): return http response
+    the route for displaying all books
+book(book_id): return http response
+    the route for displaying a single book
+update_book(book_id): return http response
+    the route for updating a book
+delete_book(book_id): return http response
+    the route for deleting a book
+"""
+
 from flask import Blueprint, render_template, url_for, flash, redirect, abort,\
         request
 from flask_login import current_user, login_required
@@ -12,6 +30,20 @@ books = Blueprint('books', __name__)
 @books.route("/book/new", methods=['GET', 'POST'])
 @login_required
 def add_book():
+    """The route function for adding books.
+
+    If the user isn't admin, don't do anything.
+    If the form validates, add book to db.
+    Flash the message, and redirect to all books.
+    Else, just load the form (render the template).
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     if not current_user.is_admin:  # only the admin adds books
         abort(403)
     form = BookForm()
@@ -29,12 +61,41 @@ def add_book():
 
 @books.route("/all_books")
 def all_books():
+    """The route function for displaying all books.
+
+    Get all the records from the books table.
+    Render the template.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     books = Book.query.all()
     return render_template('books/all_books.html', books=books)
 
 
 @books.route("/book/<int:book_id>")
 def book(book_id):
+    """The route for displaying a single book.
+
+    Query the books table for the record with that book id.
+    Render the template.
+
+    ----
+
+    Parameters
+    ----------
+    book_id: int
+        the id for the book to be displayed
+
+    Returns
+    -------
+    http response
+    """
+
     book = Book.query.get_or_404(book_id)
     return render_template('books/book.html', title=book.title, book=book)
 
@@ -42,6 +103,26 @@ def book(book_id):
 @books.route("/book/<int:book_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_book(book_id):
+    """The route for updating a book.
+
+    Get the book with that id, or return a 404.
+    If the user isn't admin, don't do anything.
+    If the form validates, apply changes to db.
+    Flash the message, and redirect to that book's route.
+    Else, render the template with the loaded record.
+
+    ---
+
+    Parameters
+    ----------
+    book_id: int
+        the id of the book to be updated
+
+    Returns
+    -------
+    http response
+    """
+
     book = Book.query.get_or_404(book_id)
     if not current_user.is_admin:  # only the admin can update books
         abort(403)  # forbidden route
@@ -70,6 +151,25 @@ def update_book(book_id):
 @books.route("/book/<int:book_id>/delete", methods=['POST'])
 @login_required
 def delete_book(book_id):
+    """The route for deleting a book.
+
+    Get the book with that id, or return a 404.
+    If the user isn't admin, don't do anything.
+    Delete the book from the db.
+    Flash the message, and redirect to all books.
+
+    ---
+
+    Parameters
+    ----------
+    book_id: int
+        the id of the book to be deleted
+
+    Returns
+    -------
+    http response
+    """
+
     book = Book.query.get_or_404(book_id)
     if not current_user.is_admin:
         abort(403)  # forbidden route
