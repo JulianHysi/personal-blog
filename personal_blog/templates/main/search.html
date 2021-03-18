@@ -24,6 +24,7 @@
             </article>
         {% endfor %}
 
+        {% if prev_url or next_url %}  <!-- don't show pagination if there's just one page -->
         <nav aria-label="...">
             <div class="text-center">
             {% if prev_url %}
@@ -47,6 +48,7 @@
             {% endif %}
             </div>
         </nav>
+        {% endif %}
 
     {% endif %}
 
