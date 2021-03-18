@@ -17,7 +17,7 @@
                 <div class="media-body">
                     <div class="article-metadata">
                         <a class="mr-2" href="{{ url_for('posts.all_posts') }}">{{ post.author.username }}</a>
-                        <small class="text-muted right"> {{ post.date_posted.strftime('%d-%m-%Y') }} </small>
+                        <small class="text-muted right"> {{ post.date_posted.strftime('%-d %B, %Y') }} </small>
                     </div> <br>
                     <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
                 </div>
