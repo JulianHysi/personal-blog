@@ -1,0 +1,54 @@
+{% if not hide_sidebar %}
+  <div class="col-md-4">
+    <div class="content-section">
+
+        <ul class="list-group">
+
+            <li class="text-center mt-2">Welcome !</li>
+            <div class="sidebar-section">
+                <br>
+                <p class="sidebar-paragraph">Hi, my name is Julian Hysi and I'm a Software Engineer.</p>
+                <p class="sidebar-paragraph">I've built this blog to share my thoughts.</p>
+                <p class="sidebar-paragraph">Hope you have a nice stay! </p>
+                <br>
+            </div>
+
+            &emsp;
+
+            {% if sidebar_posts %}
+            <li class="text-center">Latest Posts</li>
+                <div class="sidebar-section">
+                    <ul>
+                        <br>
+                        {% for post in sidebar_posts %}
+                            <li><p>- <a href="{{ url_for('posts.post', post_id=post.id)}}">
+                                        {{post.title}}</a></p></li>
+                        {%endfor%}
+                        <br>
+                    </ul>
+                </div>
+            {% endif %}
+            
+            &emsp;
+
+            <li class="text-center">Contact</li>
+            <div class="sidebar-section">
+                <ul>
+                  <br>
+                  <li><p>Twitter: <a class="right mr-3" href="https://twitter.com/JulianHysi">
+                                   @JulianHysi</a></p></li>
+                  <li><p>GitHub: <a class="right mr-3" href="https://github.com/JulianHysi">
+                                  @JulianHysi</a></p></li>
+                  <li><p>LinkedIn: <a class="right mr-3" href="https://linkedin.com/in/julian-hysi">
+                                    @julian-hysi</a></p></li>
+                  <li><p>Email: <span class="right mr-3">julian_hysi@yahoo.com</span></p></li>
+                  <li><p>Email: <span class="right mr-3">julian_hysi@live.com</span><p></li>
+                  <br>
+                </ul>
+            </div>
+
+        </ul>
+
+    </div>
+  </div>
+{% endif %}

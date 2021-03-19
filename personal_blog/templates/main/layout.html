@@ -22,140 +22,25 @@
 
     <body>
 
-        <!-- Navigation Bar begin-->
-        <header class="site-header">
-            <nav class="navbar navbar-expand-md navbar-dark bg-fblue fixed-top">
-                <div class="container">
-
-                    <a class="navbar-brand mr-4" href="{{ url_for('main.home') }}">Julian's Blog</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
-                        aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarToggle">
-                        <div class="navbar-nav mr-auto">
-                            <a class="nav-item nav-link" href="{{ url_for('main.home') }}">Home</a>
-                            <div class="dropdown">
-                                <a href="javascript:void(0)" class="nav-item nav-link dropbtn">Posts</a>
-                                <div class="dropdown-content">
-                                    <a class="nav-item nav-link" href="{{ url_for('posts.all_posts') }}">All Posts</a>
-                                    <a class="nav-item nav-link" href="{{ url_for('posts.tags') }}">Posts by Tag</a>
-                                </div>
-                            </div>
-                            <a class="nav-item nav-link" href="{{ url_for('books.all_books') }}">Books</>
-                            <a class="nav-item nav-link" href="{{ url_for('main.about') }}">About</a>
-                        </div>
-
-                        <!-- Navbar Right Side -->
-                        <div class="navbar-nav">
-
-							{% if g.search_form %}
-							<form class="navbar-form navbar-left" method="get"
-								  action="{{ url_for('main.search') }}">
-								<div class="form-group mb-0 mt-1 input-group-sm">
-									{{ g.search_form.q(size=20, class='form-control',
-										placeholder=g.search_form.q.label.text) }}
-								</div>
-							</form>
-							{% endif %}
-
-                            {% if current_user.is_authenticated %}
-                                {% if current_user.is_admin  %} 
-                                <!-- show the New Post and Add Book option only when it's me who is logged in -->
-                                    <a class="nav-item nav-link" href="{{ url_for('posts.new_post') }}">New post</a>
-                                    <a class="nav-item nav-link" href="{{ url_for('books.add_book') }}">Add Book</a>
-                                {% endif %}
-                                <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Profile</a>
-                                <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Log Out</a>
-                            {% else %}
-                                <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Log In</a>
-                                <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
-                            {% endif %}
-                        </div>
-
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <!-- Navigation Bar end-->
+        {% include "main/_navigation_bar.html" %}
 
         <main role="main" class="container">
         
             <div class="row">
 
                 <div class="col-md-8">
-                    <!-- Flashed messages -->
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">
-                                {{ message }}
-                            </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
                     
+                    {% include "main/_flashed_messages.html" %}
+
                     <!-- Content block -->
                     {% block content %} {% endblock %}
 
                 </div>
 
-                  {% if not hide_sidebar %}
-                  <div class="col-md-4">
-                    <div class="content-section">
+                {% include "main/_sidebar.html" %}
 
-                        <ul class="list-group">
-
-                            <li class="text-center mt-2">Welcome !</li>
-                            <div class="sidebar-section">
-                                <br>
-                                <p class="sidebar-paragraph">Hi, my name is Julian Hysi and I'm a Software Engineer.</p>
-                                <p class="sidebar-paragraph">I've built this blog to share my thoughts.</p>
-                                <p class="sidebar-paragraph">Hope you have a nice stay! </p>
-                                <br>
-                            </div>
-
-                            &emsp;
-
-                            {% if sidebar_posts %}
-                            <li class="text-center">Latest Posts</li>
-                                <div class="sidebar-section">
-                                    <ul>
-                                        <br>
-                                        {% for post in sidebar_posts %}
-                                            <li><p>- <a href="{{ url_for('posts.post', post_id=post.id)}}">
-                                                        {{post.title}}</a></p></li>
-                                        {%endfor%}
-                                        <br>
-                                    </ul>
-                                </div>
-                            {% endif %}
-                            
-                            &emsp;
-
-                            <li class="text-center">Contact</li>
-                            <div class="sidebar-section">
-                                <ul>
-                                  <br>
-                                  <li><p>Twitter: <a class="right mr-3" href="https://twitter.com/JulianHysi">
-                                                   @JulianHysi</a></p></li>
-                                  <li><p>GitHub: <a class="right mr-3" href="https://github.com/JulianHysi">
-                                                  @JulianHysi</a></p></li>
-                                  <li><p>LinkedIn: <a class="right mr-3" href="https://linkedin.com/in/julian-hysi">
-                                                    @julian-hysi</a></p></li>
-                                  <li><p>Email: <span class="right mr-3">julian_hysi@yahoo.com</span></p></li>
-                                  <li><p>Email: <span class="right mr-3">julian_hysi@live.com</span><p></li>
-                                  <br>
-                                </ul>
-                            </div>
-
-                        </ul>
-                    </div>
-                  </div>
-                  {% endif %}
-                
             </div>
+
         </main>
 
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
