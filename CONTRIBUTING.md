@@ -21,6 +21,11 @@ Please note we have a code of conduct, please follow it in all your interactions
    to update it. Then you can activate it again.
 6. Hit `flask db migrate` and `flask db upgrade` every time you make changes to the database models.  
    That is, `models.py` file. Include the migration scripts in your next commit.
+7. Add docstrings to every new package, module, class or function you create.  
+   When you modify existing code, modify the docstring too so that it reflects the new behavior.
+8. Make sure your changes comply to PEP8 conventions.  
+   Install and run the flake8 command at the project's top level directory.  
+   If there are warnings, fix them before committing.
 7. Make the Pull Request, and wait for the approval of the owners of this repository.
 
 ## Code of Conduct
