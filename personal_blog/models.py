@@ -271,7 +271,7 @@ class Post(SearchableMixin, db.Model):
     Methods
     -------
     __repr__(self): str
-        string representation of a User instance
+        string representation of a Post instance
     """
 
     __searchable__ = ['content']
@@ -311,6 +311,11 @@ class Comment(db.Model):
         integer, foreign key, points to User.id
     post_id: SQLALchemy.Column
         integer, foreign key, points to Post.id
+
+    Methods
+    -------
+    __repr__(self): str
+        string representation of a Comment
     """
 
     id = db.Column(db.Integer, primary_key=True)
@@ -319,6 +324,10 @@ class Comment(db.Model):
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Comment {self.id} by user {self.user_id} for "\
+                f"post {self.post_id}\n"
 
 
 class Tag(db.Model):
@@ -337,11 +346,19 @@ class Tag(db.Model):
         string, mandatory
     post_id: SQLALchemy.Column
         integer, foreign key, points to Post.id
+
+    Methods
+    -------
+    __repr__(self): str
+        string representation of a Tag
     """
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(20), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Tag {self.id} for post {self.post}\n"
 
 
 class Book(db.Model):
@@ -366,6 +383,11 @@ class Book(db.Model):
         string
     description: SQLAlchemy.Column
         text, mandatory
+
+    Methods
+    -------
+    __repr__(self): str
+        string representation of a Book
     """
 
     id = db.Column(db.Integer, primary_key=True)
@@ -374,3 +396,6 @@ class Book(db.Model):
     edition = db.Column(db.String(20), nullable=False)
     link = db.Column(db.String(60))
     description = db.Column(db.Text, nullable=False)
+
+    def __repr__(self):
+        return f"Book {self.id} titled {self.title}\n"
