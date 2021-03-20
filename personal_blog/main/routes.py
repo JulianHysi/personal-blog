@@ -1,3 +1,19 @@
+"""Module containing route functions for the main blueprint.
+
+---
+
+Functions
+---------
+landing_page(): return http response
+    the route for the landing page
+home(): return http response
+    the route for the homepage
+about(): return http response
+    the route for the about page
+search(): return http response
+    the route for the search results
+"""
+
 from flask import Blueprint, request, render_template, g, redirect, url_for,\
         abort, current_app
 
@@ -8,11 +24,31 @@ main = Blueprint('main', __name__)
 
 @main.route("/")
 def landing_page():
+    """The route function for the landing page.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     return render_template('main/landing_page.html')
 
 
 @main.route("/home")
 def home():
+    """The route function for the homepage.
+
+    Display all posts, paginated, from newest to oldest.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(
         page=page, per_page=current_app.config['PER_PAGE_HOME'])
@@ -21,11 +57,37 @@ def home():
 
 @main.route("/about")
 def about():
+    """The route function for the about page.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     return render_template('main/about.html', title='About')
 
 
 @main.route("/search")
 def search():
+    """The route function for the search results page.
+
+    If the search text field is empty, redirect to homepage.
+    Get matching posts, paginated, sorted by relevance.
+    If the total is -1, elastic isn't running, so return code 500.
+    If the total is 0, render the template with the display
+    message of no matching results found.
+    Else, calculate the next and previous links for the pagination.
+    And render the template with the search results.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     if not g.search_form.validate():
         return redirect(url_for('main.home'))
     page = request.args.get('page', 1, type=int)
