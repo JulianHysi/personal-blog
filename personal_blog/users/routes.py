@@ -1,3 +1,25 @@
+"""Module containing the route functions for the users blueprint.
+
+---
+
+Functions
+---------
+register(): return http response
+    the route for registering a new user
+login(): return http response
+    the route for logging a user in
+logout(): return http response
+    the route for loggin a user out
+account(): return http response
+    the route for displaying a user account
+deactivate_account(): return http response
+    the route for deactivating a user account
+reset_request(): return http response
+   the route for requesting a password reset
+reset_token(): return http response
+    the route for resetting the password
+"""
+
 from flask import Blueprint, render_template, url_for, flash, redirect,\
         request, current_app
 from flask_login import login_user, current_user, logout_user, login_required
@@ -14,8 +36,24 @@ users = Blueprint('users', __name__)
 
 @users.route("/register", methods=['GET', 'POST'])
 def register():
+    """The route for registering a new user.
+
+    If the current user is already authenticated, redirect home.
+    If the form validates, create the new user and commit to db.
+    Hash the passsword first. Set the is_admin property to yes
+    if no other user has it on (there can be only 1 admin).
+    Flash the message, and redirect to the login route.
+    If the form doesn't validate, simply render the template.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     if current_user.is_authenticated:
-        return redirect(url_for('users.home'))
+        return redirect(url_for('main.home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         passwd = form.password.data
@@ -36,8 +74,26 @@ def register():
 
 @users.route("/login", methods=['GET', 'POST'])
 def login():
+    """The route for logging a user in.
+
+    If the user is already authenticated, redirect home.
+    If the form validates, and the credentials match a
+    user in the db, log the user in.
+    Get the next page url parameter from the request object.
+    If there is a next page, redirect to it. Else, to home.
+    If the form validates, but credentials dont match,
+    flash a warning message.
+    If he form doesn't validate, simply render the template.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     if current_user.is_authenticated:
-        return redirect(url_for('users.home'))
+        return redirect(url_for('main.home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
@@ -57,6 +113,17 @@ def login():
 
 @users.route("/logout")
 def logout():
+    """The route for logging a user out.
+
+    Log the user out, and redirect home.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     logout_user()
     return redirect(url_for('main.home'))
 
@@ -64,6 +131,22 @@ def logout():
 @users.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
+    """The route for displaying/editing a user account profile.
+
+    If the form validates, update the current user.
+    If there was an update of profile picture, delete the old
+    one from the filesystem, and store the new one.
+    Commit to db, flash the message, and redirect to this route.
+    If the form doesn't validate and request is GET, simply
+    preload the account form with data, and render the template.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.profile_pic.data:
@@ -91,6 +174,21 @@ def account():
 @users.route("/account/deactivate", methods=['POST'])
 @login_required
 def deactivate_account():
+    """The route for deactivating a user account.
+
+    If the current user is admin, do not allow the deactivation.
+    Flash the message, and redirect to that user's account.
+    Else, delete the current user, commit to db, delete their
+    profile picture from the filesystem, flash the message, and
+    redirect to the logout route.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     if current_user.is_admin:
         flash('Admin account cannot be deactivated', 'danger')
         return redirect(url_for('users.account'))
@@ -104,6 +202,20 @@ def deactivate_account():
 
 @users.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
+    """The route for requesting a password reset.
+
+    If the current user is authenticated, redirect home.
+    If the form validates, get the user with that email, send
+    the reset email, flash the message, and redirect to login.
+    If the form doesn't validate, simply render the template.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     if current_user.is_authenticated:
         return redirect(url_for('users.home'))
     form = RequestResetForm()
@@ -119,6 +231,23 @@ def reset_request():
 
 @users.route('/reset_password/<string:token>', methods=['GET', 'POST'])
 def reset_token(token):
+    """The route for resetting the password.
+
+    If the current user is authenticated, redirect home.
+    If the token isn't valid, flash the message and
+    redirect to the reset_request route.
+    If the form validates, get the new password, hash its
+    value and update the user with it.
+    Commit to db, flash the message and redirect to login.
+    If the form doesn't validate, simply render the template.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     if current_user.is_authenticated:
         return redirect(url_for('users.home'))
     user = User.verify_reset_token(token)
