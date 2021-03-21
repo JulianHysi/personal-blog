@@ -58,7 +58,7 @@
         <div class="media-body">
           <div class="article-metadata">
               <a id="comment-author">{{ comment.author.username }}</a>
-              <small class="text-muted right"> {{ comment.date_posted.strftime('%d-%m-%Y') }} </small>
+              <small class="text-muted right"> {{ comment.date_posted.strftime('%-d %B, %Y') }} </small>
           </div> <br>
           <p class="article-content">{{ comment.content }}</p>
           <br>
