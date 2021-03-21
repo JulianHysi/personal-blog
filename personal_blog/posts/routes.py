@@ -68,7 +68,7 @@ def new_post():
         db.session.add(post)
         # add tags
         tags = form.tags.data
-        tags = tags.split(' ')
+        tags = set(tags.split(' '))
         parent_post = Post.query.order_by(Post.date_posted.desc()).first()
         for tag_name in tags:
             tag = Tag(content=tag_name, parent_post=parent_post)
@@ -146,7 +146,7 @@ def update_post(post_id):
         for tag in old_tags:
             db.session.delete(tag)
         new_tags = form.tags.data
-        new_tags = new_tags.split(' ')
+        new_tags = set(new_tags.split(' '))
         for i in new_tags:
             tag = Tag(content=i, parent_post=post)
             db.session.add(tag)
