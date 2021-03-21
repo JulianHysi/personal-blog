@@ -1,3 +1,31 @@
+"""Module containing the route functions for the posts blueprint.
+
+---
+
+Functions
+---------
+new_post(): return http response
+    the route for creating a new post
+post(post_id): return http response
+    the route for displaying a post with that id
+update_post(post_id): return http response
+    the route for updating a post with that id
+delete_post(post_id): return http response
+    the route for deleting a post with that id
+all_posts(): return http response
+    the route for displaying all posts
+comment(post_id): return http response
+    the route for adding a comment to that post
+posts_by_tag(tag_content): return http response
+    the route for displaying all posts with that tag
+tags(): return http response
+    the route for displaying all posts, grouped by tag
+uploaded_files(filename): return http response, file url
+    the route for getting the static file with that filename
+upload(): return http response, file url
+    the route for uploading a file (post image)
+"""
+
 import os
 from secrets import token_hex
 
@@ -17,6 +45,20 @@ posts = Blueprint('posts', __name__)
 @posts.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
+    """The route for creating a new post.
+
+    If the current user isn't admin, early return code 403.
+    If the form validates, create post and tag records.
+    Flash the message, and redirect home.
+    If it doesn't validate, simply render the template.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     if not current_user.is_admin:  # only the admin creates posts
         abort(403)
     form = PostForm()
@@ -41,6 +83,24 @@ def new_post():
 
 @posts.route("/post/<int:post_id>")
 def post(post_id):
+    """The route function for displaying a post with that id.
+
+    Get the post with that id, or return a 404.
+    Get the comments for the post, ordered by date posted.
+    Get the tags for the post. Render the template.
+
+    ---
+
+    Parameters
+    ----------
+    post_id: int
+        the id of the post to be displayed
+
+    Returns
+    -------
+    http response
+    """
+
     post = Post.query.get_or_404(post_id)
     comments = Comment.query.filter_by(post_id=post_id).order_by(
             Comment.date_posted.asc())
@@ -52,6 +112,28 @@ def post(post_id):
 @posts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_post(post_id):
+    """The route function for updating the post with that id.
+
+    Get the post with that id, or return a 404.
+    If the current user isn't the post author, return a 403.
+    If the form validates, update the post record, delete the
+    old tag records and create new ones, and then commit to db.
+    Flash the message, and redirect to that post's route.
+    If the form doesn't validate, or the request is GET,
+    simply render the template.
+
+    ---
+
+    Parameters
+    ----------
+    post_id: int
+        the id of the post to be updated
+
+    Returns
+    -------
+    http response
+    """
+
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)  # forbidden route
@@ -83,6 +165,26 @@ def update_post(post_id):
 @posts.route("/post/<int:post_id>/delete", methods=['POST'])
 @login_required
 def delete_post(post_id):
+    """The route function for deleting the post with that id.
+
+    Get the post with that id, or return a 404.
+    If the current user isn't the post author, return a 403.
+    Delete the post record, and commit to db.
+    Delete the image files associated with that post.
+    Flash the message, and redirect home.
+
+    ---
+
+    Parameters
+    ----------
+    post_id: int
+        the id of the post to be deleted
+
+    Returns
+    -------
+    http response
+    """
+
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
         abort(403)  # forbidden route
@@ -96,6 +198,19 @@ def delete_post(post_id):
 
 @posts.route("/all_posts")
 def all_posts():
+    """The route function for displaying all posts.
+
+    Get current page from the request object.
+    Get all posts, ordered by date, and paginated.
+    Render the template for the current page.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(
         page=page, per_page=current_app.config['PER_PAGE_GLOBAL'])
@@ -105,6 +220,25 @@ def all_posts():
 @posts.route("/post/<int:post_id>/comment", methods=['GET', 'POST'])
 @login_required
 def comment(post_id):
+    """The route function for adding a comment to that post.
+
+    Get the post with that id, or return a 404.
+    If the form validates, create a comment record and commit it.
+    Flash the message, and redirect to the post.
+    If it doesn't validate, simply render the template.
+
+    ---
+
+    Parameters
+    ----------
+    post_id: int
+        the id of the post to be commented on
+
+    Returns
+    -------
+    http response
+    """
+
     post = Post.query.get_or_404(post_id)
     form = CommentForm()
     if form.validate_on_submit():
@@ -118,9 +252,29 @@ def comment(post_id):
                            post=post, hide_sidebar=True)
 
 
-# returns all posts for a certain tag
 @posts.route("/all_posts/<string:tag_content>")
 def posts_by_tag(tag_content):
+    """The route function for displaying all posts with that tag.
+
+    Collect all the tag records with that tag content.
+    Get the corresponding post id for each tag record collected.
+    Get the current page from the request object.
+    Get all the posts with those post ids, ordered by date
+    posted, and paginated.
+    Render the template.
+
+    ---
+
+    Parameters
+    ----------
+    tag_content: str
+        the tag whole posts are to be displayed (i.e. 'django')
+
+    Returns
+    -------
+    http response
+    """
+
     tags = Tag.query.filter_by(content=tag_content).all()
     post_ids = [tag.post_id for tag in tags]
     page = request.args.get('page', 1, type=int)
@@ -131,9 +285,19 @@ def posts_by_tag(tag_content):
                            tag=tag_content)
 
 
-# returns all tags, and the number of posts they have
 @posts.route("/tags")
 def tags():
+    """The route function for displaying all posts, grouped by tag.
+
+    Get all distinct tags. Render the template.
+
+    ---
+
+    Returns
+    -------
+    http response
+    """
+
     tags = db.session.query(Tag.content.distinct().label("content")).all()
     return render_template('posts/tags.html', Tag=Tag, Post=Post, db=db,
                            tags=tags)
@@ -141,12 +305,47 @@ def tags():
 
 @posts.route('/files/<string:filename>')
 def uploaded_files(filename):
+    """The route function used by Ckeditor for getting uploaded files.
+
+    Get the app path. Pass it on, along with the name
+    of the requested file, to send_from_directory().
+    Return the output of send_from_directory().
+
+    ---
+
+    Parameters
+    ----------
+    filename: str
+        the name of the file to be retrieved
+
+    Returns
+    -------
+    http response, filename url
+    """
+
     path = current_app.config['UPLOADED_PATH']
     return send_from_directory(path, filename)
 
 
 @posts.route('/upload', methods=['POST'])
 def upload():
+    """The route function used by Ckeditor for uploading files.
+
+    Get the file from the request object.
+    Get its extension. If it's not an image format, return error.
+    The reason being, this route is used for post images only.
+    Create a random name for the file, and add the extension.
+    Save the file with that name in the file system.
+    Get the file url using uploaded_files() function above.
+    Return the url and a success code.
+
+    ---
+
+    Returns
+    -------
+    http response, file url
+    """
+
     f = request.files.get('upload')
     extension = f.filename.split('.')[-1].lower()
     if extension not in ['jpg', 'gif', 'png', 'jpeg']:
