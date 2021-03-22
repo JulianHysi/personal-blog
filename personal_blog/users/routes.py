@@ -205,8 +205,10 @@ def reset_request():
     """The route for requesting a password reset.
 
     If the current user is authenticated, redirect home.
-    If the form validates, get the user with that email, send
-    the reset email, flash the message, and redirect to login.
+    If the form validates, get the user with that email.
+    If the user exists, send the reset email. But flash
+    the message anyway as a security best practice, and
+    redirect to the login route.
     If the form doesn't validate, simply render the template.
 
     ---
@@ -221,7 +223,8 @@ def reset_request():
     form = RequestResetForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        send_reset_email(user)
+        if user:
+            send_reset_email(user)
         flash('An email has been sent with instructions to reset '
               'your password', 'info')
         return redirect(url_for('users.login'))
