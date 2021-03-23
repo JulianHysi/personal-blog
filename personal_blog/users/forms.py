@@ -73,10 +73,6 @@ class RegistrationForm(FlaskForm):
         ----------
         username: str
             the username of the current user being created
-
-        Returns
-        -------
-        None
         """
 
         user = User.query.filter_by(username=username.data).first()
@@ -92,10 +88,6 @@ class RegistrationForm(FlaskForm):
         ----------
         email: str
             the email of the current user being created
-
-        Returns
-        -------
-        None
         """
 
         user = User.query.filter_by(email=email.data).first()
@@ -176,10 +168,6 @@ class UpdateAccountForm(FlaskForm):
         ----------
         username: str
             the user username to be validated
-
-        Returns
-        -------
-        None
         """
 
         user = User.query.filter_by(username=username.data).first()
@@ -198,10 +186,6 @@ class UpdateAccountForm(FlaskForm):
         ----------
         email: str
             the user email to be validated
-
-        Returns
-        -------
-        None
         """
 
         user = User.query.filter_by(email=email.data).first()

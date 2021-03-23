@@ -29,10 +29,6 @@ def delete_post_images(content, root_path):
         the contents of the post whose images are to be deleted
     root_path: str
         the root path of the application
-
-    Returns
-    -------
-    None
     """
 
     pattern = re.compile(r'src="/files/([^"]+)"')

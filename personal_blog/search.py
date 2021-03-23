@@ -29,10 +29,6 @@ def add_to_index(index, model):
         the name of the index to be updated
     model: instance of a database models classes
         the model instance record which was added/updated to main db
-
-    Returns
-    -------
-    None
     """
 
     if not current_app.elasticsearch:
@@ -57,10 +53,6 @@ def remove_from_index(index, model):
         the name of the index from which to remove
     model: instance of a database models classes
         the model instance record which was deleted from main db
-
-    Returns
-    -------
-    None
     """
 
     if not current_app.elasticsearch:

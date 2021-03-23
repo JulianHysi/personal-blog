@@ -76,10 +76,6 @@ def delete_old_profile_picture(filename, root_path):
         the name of the file to be deleted
     root_path: str
         the root path of the application
-
-    Returns
-    -------
-    None
     """
 
     if filename == 'default.png':
@@ -120,10 +116,6 @@ def send_reset_email(user):
     ----------
     user: instance of User
         the user to whom the email should be sent
-
-    Returns
-    -------
-    None
     """
 
     token = user.get_reset_token()
