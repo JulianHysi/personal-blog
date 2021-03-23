@@ -15,10 +15,11 @@ send_reset_email(user): return None
 
 import os
 import secrets
+from threading import Thread
 
 from PIL import Image
 from flask_mail import Message
-from flask import url_for
+from flask import url_for, current_app
 
 from personal_blog import mail
 
@@ -87,6 +88,23 @@ def delete_old_profile_picture(filename, root_path):
     os.remove(filepath)
 
 
+def send_async_email(app, msg):
+    """Helper function for send_reset_email()'s threads.
+
+    ---
+
+    Parameters
+    ----------
+    app: Flask instance
+        the current actual application, not a proxy
+    msg: Message instance
+        the message to be sent via email
+    """
+
+    with app.app_context():
+        mail.send(msg)
+
+
 def send_reset_email(user):
     """Send the password reset email.
 
@@ -94,7 +112,7 @@ def send_reset_email(user):
     Build a Message instance with the subject, sender, and the
     recipients of the email.
     Add do it the body (contents) of the email.
-    Send the email.
+    Send the email via a thread, to not slow down the whole app.
 
     ---
 
@@ -116,4 +134,5 @@ def send_reset_email(user):
 
 If you did not make this request, simply ignore this email.
     '''
-    mail.send(msg)
+    Thread(target=send_async_email,
+           args=(current_app._get_current_object(), msg)).start()
