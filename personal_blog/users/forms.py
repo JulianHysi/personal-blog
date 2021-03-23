@@ -228,25 +228,6 @@ class RequestResetForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request password reset')
 
-    def validate_email(self, email):
-        """Raise ValidationError if that user email doesn't exist.
-
-        ---
-
-        Parameters
-        ----------
-        email: str
-            the user email to be validated
-
-        Returns
-        -------
-        """
-
-        user = User.query.filter_by(email=email.data).first()
-        if not user:
-            raise ValidationError('If an account with this email exists, a '
-                                  'password reset email will be sent shortly')
-
 
 class ResetPasswordForm(FlaskForm):
     """The class used to build the user reset password form.
