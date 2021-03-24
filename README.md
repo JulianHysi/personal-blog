@@ -10,13 +10,13 @@ I accept pull requests (See [CONTRIBUTING.MD](https://github.com/JulianHysi/pers
 <!-- add here a link to the blog, and a screenshot of it -->
 
 ### Features include:
-- create, edit and delete an account/profile, reset password
-- auth system
+- create, edit and delete an account/profile
+- auth system, reset password
 - create, edit and delete posts (admin only)
 - create, edit and delete books (admin only) 
 - comment on a post (users only)
 - full-text search posts 
-- add tags to the post when you create it
+- add tags to the post when you create it, update tags
 - view posts (by user, by tag, sorted by date, paginated)
 
 ### Tech stack:
@@ -30,7 +30,7 @@ I accept pull requests (See [CONTRIBUTING.MD](https://github.com/JulianHysi/pers
 
 ### Setting up the virtual environment and dependencies:
 1. install Anaconda and verify it works (see Anaconda docs if you don't know how)
-2. clone the repo locally and cd to it's folder
+2. clone the repo locally and cd to its folder
 3. hit `conda env create -f environment.yaml --name env_name` to create the virtual environment
 4. hit `conda activate env_name` to activate the virtual environment
 5. while the environment is activated, hit `conda list` to verify the dependencies have indeed been installed
