@@ -36,7 +36,8 @@ I accept pull requests (See [CONTRIBUTING.MD](https://github.com/JulianHysi/pers
 5. while the environment is activated, hit `conda list` to verify the dependencies have indeed been installed
 6. set environment variables (see section below)
 7. install, config and run Elastic server following this guide: https://tecadmin.net/setup-elasticsearch-on-ubuntu/
-8. hit `flask db upgrade` to create the db schema (FLASK_APP must be exported in order for the flask command to work)
+8. hit `export FLASK_APP=run.py`
+9. hit `flask db upgrade` to create the db schema
 
 ### Setting environment variables:
 1. `SECRET_KEY` (random hex that should be kept secret, see Flask docs for more)
