@@ -7,7 +7,9 @@ It can still serve as a simple, general-purpose blog for almost anyone out there
 It can also be of great use if you'd like to play around with Python, Flask or web development in general.  
 I accept pull requests (See [CONTRIBUTING.MD](https://github.com/JulianHysi/personal_blog/blob/master/CONTRIBUTING.md) for more)  
 
-<!-- add here a link to the blog, and a screenshot of it -->
+### Example
+Visit [julianhysi.com](https://julianhysi.com) to see the deployed application.  
+Note: the production source code has a few deplyoment tweaks compared to this repo.
 
 ### Features include:
 - create, edit and delete an account/profile
