@@ -20,7 +20,7 @@
         <p>{{ book.authors }}</p>
         <p>{{ book.edition }}</p>
         {% if book.link %}
-            <p>{{ book.link }}</p>
+            <p>{{ book.link | safe }}</p>
         {% endif %}
         <p class="article-content">{{ book.description }}</p>
 
