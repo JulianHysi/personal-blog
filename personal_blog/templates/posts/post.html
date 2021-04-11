@@ -34,11 +34,14 @@
             <a class="btn btn-info" href="{{ url_for('posts.comment', post_id=post.id) }}">Comment</a>
           </div>
 
-          <div class="share-btns">
-            <a class="btn btn-warning mr-1 mb-1" href="https://twitter.com/share?url=#">Share on Twitter</a>
-            <a class="btn btn-warning mb-1" href="https://www.facebook.com/sharer/sharer.php?u=example.org"
-                target="_blank">Share on Facebook</a>
-          </div>
+	      <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+	        <a class="a2a_button_twitter"></a>
+	        <a class="a2a_button_linkedin"></a>
+	        <a class="a2a_button_facebook"></a>
+	        <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+	    </div>
+
+	  <script async src="https://static.addtoany.com/menu/page.js"></script>
 
         </div>
 
