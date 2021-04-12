@@ -21,7 +21,7 @@ reset_token(): return http response
 """
 
 from flask import Blueprint, render_template, url_for, flash, redirect,\
-        request, current_app
+        request, current_app, session
 from flask_login import login_user, current_user, logout_user, login_required
 
 from personal_blog import db, bcrypt
@@ -78,7 +78,8 @@ def login():
 
     If the user is already authenticated, redirect home.
     If the form validates, and the credentials match a
-    user in the db, log the user in.
+    user in the db, log the user in. Set the session to
+    permanent, in order for timeouts to work.
     Get the next page url parameter from the request object.
     If there is a next page, redirect to it. Else, to home.
     If the form validates, but credentials dont match,
@@ -99,6 +100,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password,
                                                form.password.data):
+            session.permanent = True
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')  # url parameter
             if next_page:

@@ -10,6 +10,7 @@ Classes
     ProductionConfig: extends Config with production extras
 """
 
+from datetime import timedelta
 import os
 
 
@@ -42,6 +43,10 @@ class Config:
         the URL or endpoint that handles file upload
     CKEDITOR_HEIGHT : int
         the width of CKEditor textarea, in pixel
+
+    PERMANENT_SESSION_LIFETIME: timedelta object
+        the inactive time after which a session expires
+        works only if 'Remember Me' on login is set to False
 
     MAIL_SERVER : str
         the server used for sending mails
@@ -77,6 +82,8 @@ class Config:
     CKEDITOR_ENABLE_CODESNIPPET = True
     CKEDITOR_FILE_UPLOADER = 'posts.upload'
     CKEDITOR_HEIGHT = 500
+
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=30)
 
     MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_PORT = 587
