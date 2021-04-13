@@ -1,4 +1,9 @@
 {% extends "main/layout.html" %}
+
+{% block ckeditor %}
+    {{ ckeditor.load_code_theme() }}
+{% endblock ckeditor %}
+
 {% block content %}
 
 <article class="media content-section pl-1">
