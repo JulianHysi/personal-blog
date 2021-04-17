@@ -358,7 +358,7 @@ class Tag(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
 
     def __repr__(self):
-        return f"Tag {self.id} for post {self.post}\n"
+        return f"Tag {self.id} for post {self.post_id}\n"
 
 
 class Book(db.Model):
