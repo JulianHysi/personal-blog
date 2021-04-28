@@ -35,7 +35,7 @@ Note: the production source code has a few deplyoment tweaks compared to this re
 3. hit `python -m venv venv` to create a virtual environment
 4. hit `source venv/bin/activate` to activate the virtual environment
 5. while the environment is activated, hit `pip install -r requirements.txt` to install dependencies
-5. hit 'pip list' to verify the dependencies have been installed
+5. hit `pip list` to verify the dependencies have been installed
 6. set environment variables (see section below)
 7. install, config and run Elastic server following this guide: https://tecadmin.net/setup-elasticsearch-on-ubuntu/
 8. hit `export FLASK_APP=run.py`
