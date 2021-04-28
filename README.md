@@ -31,11 +31,11 @@ Note: the production source code has a few deplyoment tweaks compared to this re
 - HTML5 and Boostrap 4
 
 ### Setting up the virtual environment and dependencies:
-1. install Anaconda and verify it works (see Anaconda docs if you don't know how)
 2. clone the repo locally and cd to its folder
-3. hit `conda env create -f environment.yaml --name env_name` to create the virtual environment
-4. hit `conda activate env_name` to activate the virtual environment
-5. while the environment is activated, hit `conda list` to verify the dependencies have indeed been installed
+3. hit `python -m venv venv` to create a virtual environment
+4. hit `source venv/bin/activate` to activate the virtual environment
+5. while the environment is activated, hit `pip install -r requirements.txt` to install dependencies
+5. hit 'pip list' to verify the dependencies have been installed
 6. set environment variables (see section below)
 7. install, config and run Elastic server following this guide: https://tecadmin.net/setup-elasticsearch-on-ubuntu/
 8. hit `export FLASK_APP=run.py`
@@ -47,7 +47,7 @@ Note: the production source code has a few deplyoment tweaks compared to this re
 **the following 3 variables are necessary only if you want the full functionality**
 3. `MAIL_USERNAME` (the email account used for sending emails to users, needed by the password reset feature)
 4. `MAIL_PASSWORD` (the email password used for sending emails to users, needed by the password reset feature)
-5. `ELASTICSEARCH_URL` (elastic database url, needed by search feature, usually it's `http://localhost:9200`)
+5. `ELASTICSEARCH_URL` (elastic database url, needed by search feature, you may use `http://localhost:9200`)
 
 ### Running the application:
 1. make sure you have the above mentioned dependencies installed, and the virtual env activated

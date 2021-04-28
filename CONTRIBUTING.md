@@ -11,16 +11,16 @@ Please note we have a code of conduct, please follow it in all your interactions
 2. Ensure the above-mentioned process has gone well before you start making your local changes.
 3. Update the README.md with details of changes to the interface, this includes new environment 
    variables, exposed ports, useful file locations, container parameters etc.
-4. Update environment.yaml every time you install/update/delete a dependency.    
-   To do that, inside the project's top level dir hit `conda env export > environment.yaml`.    
-   Make sure to include the changes to environment.yaml in your next commit.
+4. Update requirements.txt every time you install/update/delete a dependency.    
+   To do that, inside the project's top level dir hit `pip freeze > requirements.txt`.    
+   Make sure to include the changes to requirements.txt in your next commit.
 5. Update your virtual environment every time you pull, as another contributor may have changed
-   environment.yaml in the meantime (as explained in point 4), which means your local virtual
+   requirements.txt in the meantime (as explained in point 4), which means your local virtual
    environment doesn't reflect up-to-date dependencies.  
-   Deactivate the environment (see Anaconda docs), and hit `conda env update -f environment.yaml --prune`
-   to update it. Then you can activate it again.
+   Hit `pip install -r requirements.txt` to update it.
 6. Hit `flask db migrate` and `flask db upgrade` every time you make changes to the database models.  
-   That is, `models.py` file. Include the migration scripts in your next commit.
+   That is, `models.py` file. Include the migration scripts in your next commit.  
+   Hit `flask db upgrade` every time you pull, as another contributor may have updated the models.
 7. Add docstrings to every new package, module, class or function you create.  
    When you modify existing code, modify the docstring too so that it reflects the new behavior.
 8. Make sure your changes comply to PEP8 conventions.  
