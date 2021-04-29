@@ -31,7 +31,7 @@ Note: the production source code has a few deplyoment tweaks compared to this re
 - HTML5 and Boostrap 4
 
 ### Setting up the virtual environment and dependencies:
-**follow all these steps to set up a contribution workflow**
+**follow all these steps to set up a contribution workflow**  
 **skip to the Docker workflow at the end, if you simply want to run the app**
 1. clone the repo locally and cd to its folder
 2. hit `python -m venv venv` to create a virtual environment
@@ -62,4 +62,4 @@ Note: the production source code has a few deplyoment tweaks compared to this re
 1. install Docker (https://linuxize.com/post/how-to-install-and-use-docker-on-ubuntu-20-04/)
 2. hit `docker build -t personal_blog:latest` to build an image off of Dockerfile
 3. set environment variables (see section above)
-4. spin a container (see `docker_run.sh` for an example) and access the app on the given port
+4. spin a container (or hit `bash docker_run.sh`) and access the app on the given port
