@@ -31,15 +31,18 @@ Note: the production source code has a few deplyoment tweaks compared to this re
 - HTML5 and Boostrap 4
 
 ### Setting up the virtual environment and dependencies:
-2. clone the repo locally and cd to its folder
-3. hit `python -m venv venv` to create a virtual environment
-4. hit `source venv/bin/activate` to activate the virtual environment
-5. while the environment is activated, hit `pip install -r requirements.txt` to install dependencies
+**follow all these steps to set up a contribution workflow**
+**skip to the Docker workflow at the end, if you simply want to run the app**
+1. clone the repo locally and cd to its folder
+2. hit `python -m venv venv` to create a virtual environment
+3. hit `source venv/bin/activate` to activate the virtual environment
+4. while the environment is activated, hit `pip install -r requirements.txt` to install dependencies
 5. hit `pip list` to verify the dependencies have been installed
 6. set environment variables (see section below)
-7. install, config and run Elastic server following this guide: https://tecadmin.net/setup-elasticsearch-on-ubuntu/
+7. install, config and run Elastic server following this guide: (https://tecadmin.net/setup-elasticsearch-on-ubuntu/)
 8. hit `export FLASK_APP=run.py`
 9. hit `flask db upgrade` to create the db schema
+10. see section below on how to run the application
 
 ### Setting environment variables:
 1. `SECRET_KEY` (random hex that should be kept secret, see Flask docs for more)
@@ -53,3 +56,10 @@ Note: the production source code has a few deplyoment tweaks compared to this re
 1. make sure you have the above mentioned dependencies installed, and the virtual env activated
 2. in the project's top level directory, hit `python run.py`
 3. the server should start, and you can access the localhost port 5000 on a browser to see the app
+
+### Docker workflow
+**this workflow is a simpler alternative to the contribution workflow from above**
+1. install Docker (https://linuxize.com/post/how-to-install-and-use-docker-on-ubuntu-20-04/)
+2. hit `docker build -t personal_blog:latest` to build an image off of Dockerfile
+3. set environment variables (see section above)
+4. spin a container (see `docker_run.sh` for an example) and access the app on the given port
