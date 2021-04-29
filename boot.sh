@@ -1,4 +1,5 @@
-#!/bin/sh
-conda activate personal_blog_env
+#!/bin/bash
+# this script is used as the entrypoint of a Docker container
+source venv/bin/activate
 flask db upgrade
-exec python run.py
+exec gunicorn -b :5000 --access-logfile - --error-logfile - run:app
