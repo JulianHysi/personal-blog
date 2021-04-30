@@ -62,4 +62,6 @@ Note: the production source code has a few deplyoment tweaks compared to this re
 1. install Docker (https://linuxize.com/post/how-to-install-and-use-docker-on-ubuntu-20-04/)
 2. hit `docker build -t personal_blog:latest` to build an image off of Dockerfile
 3. set environment variables (see section above)
-4. spin a container (or hit `bash docker_run.sh`) and access the app on the given port
+4. pull an elastic image: `docker pull docker.elastic.co/elasticsearch/elasticsearch:7.12.1`
+5. run an elastic container: `docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d --rm -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.12.1` and wait a few seconds
+6. hit `bash docker_run.sh` and access the app on the given port

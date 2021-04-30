@@ -1,7 +1,6 @@
 FROM python:3.8-slim
 
-RUN adduser personal_blog
-
+RUN adduser --disabled-password personal_blog
 WORKDIR /home/personal_blog
 
 # create the virtual env
@@ -14,13 +13,13 @@ RUN venv/bin/pip install -r requirements.txt
 COPY personal_blog personal_blog
 COPY migrations migrations
 COPY run.py boot.sh ./
-RUN chmod +x boot.sh
+RUN chmod u+x boot.sh
 
 ENV FLASK_APP run.py
-   
+
 RUN chown -R personal_blog:personal_blog ./
 USER personal_blog
-
+ 
 EXPOSE 5000
 
 ENTRYPOINT ["./boot.sh"]
