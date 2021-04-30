@@ -46,7 +46,7 @@ Note: the production source code has a few deplyoment tweaks compared to this re
 
 ### Setting environment variables:
 1. `SECRET_KEY` (random hex that should be kept secret, see Flask docs for more)
-2. `DATABASE_URI` (sqlite database uri, you may set it to `sqlite:///blog.db`)  
+2. `DATABASE_URI` (sqlite database uri, set it to `sqlite:///static/db/blog.db`)  
 **the following 3 variables are necessary only if you want the full functionality**
 3. `MAIL_USERNAME` (the email account used for sending emails to users, needed by the password reset feature)
 4. `MAIL_PASSWORD` (the email password used for sending emails to users, needed by the password reset feature)
