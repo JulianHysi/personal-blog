@@ -10,7 +10,9 @@
     <a href="{{ url_for('posts.all_posts') }}">
       <img class="rounded-circle article-img mr-1" src="{{ url_for('static', filename='profile_pics/' + post.author.profile_pic) }}">
     </a>
-    <div class="media-body">
+
+    <div style="max-width: 90%;">
+      <div class="media-body">
         <div class="article-metadata">
             <a class="mr-2" href="{{ url_for('posts.all_posts') }}">{{ post.author.username }}</a>
             <small class="text-muted right"> {{ post.date_posted.strftime('%-d %B, %Y') }} </small>
@@ -28,7 +30,7 @@
             {% for tag in tags %}
             <a href="{{ url_for('posts.posts_by_tag', tag_content=tag.content) }}">#{{ tag.content }}</a>
             {% endfor %}
-          </p>
+        </p>
         <h2 class="article-title">{{ post.title }}</h2> <br>
         <p class="article-content">{{ post.content | safe }}</p> <!-- '| safe' marks the text as safe to render html -->
         <br>
@@ -50,7 +52,10 @@
 
         </div>
 
+      </div>
+
     </div>
+
 </article>
 
 {% if comments.all() | length %}  <!-- check if query result set length is not 0 -->
